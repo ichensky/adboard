@@ -1,5 +1,6 @@
 using Application.Configuration.Data;
 using Application.Configuration.Queries;
+using Infrastucture.Database;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,8 @@ namespace AdBoard
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSingleton<ISqlConnectionFactory>();
+            var connectionString = Configuration.GetConnectionString("AdBoardConnectionString");
+            services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(connectionString));
             services.AddMediatR(typeof(ISqlConnectionFactory).Assembly);
         }
 
