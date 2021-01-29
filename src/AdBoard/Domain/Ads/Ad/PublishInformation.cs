@@ -9,11 +9,20 @@ namespace Domain.Ads.Ad
         private PublishStatus status;
         private DateTime? publishDate;
 
-        public PublishInformation() { }
+        private PublishInformation()
+        {
+            //For EF
+        }
+
+        public PublishInformation(PublishStatus publishStatus)
+        {
+            this.status = publishStatus;
+        }
 
         public void UserPublishAd()
         {
             status = PublishStatus.OnModeration;
+            publishDate = DateTime.UtcNow;
         }
 
         public void ModeratorApproveAd()

@@ -1,11 +1,7 @@
 ﻿using Application.Configuration.Data;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastucture.Database
 {
@@ -35,6 +31,7 @@ namespace Infrastucture.Database
             if (this._connection != null && this._connection.State == ConnectionState.Open)
             {
                 this._connection.Dispose();
+                GC.SuppressFinalize(this);
             }
         }
     }

@@ -3,22 +3,16 @@ using Domain.Core.BusinessRules;
 
 namespace Domain.Ads.Ad
 {
-    public class Name : ValueObject
+    public class Name : SingleValueObject<string>
     {
-        private string name;
-
-        public Name(string name)
+        private Name()
         {
-            CheckChangeRule(name);
-            this.name = name;
+            // For EF
         }
 
-        public void ChangeDescription(string newName)
-        {
-            CheckChangeRule(name);
-            name = newName;
-        }
-        private void CheckChangeRule(string name)
+        public Name(string name) : base(name) { }
+
+        protected override void CheckChangeRule(string name)
         {
             if (name.Length < 3)
             {

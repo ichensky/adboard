@@ -1,7 +1,4 @@
-﻿using Domain.Core.BusinessRules;
-using System;
-
-namespace Domain.Core
+﻿namespace Domain.Core
 {
-    public abstract class ValueObject  { }
+    public abstract class ValueObject { }
 }

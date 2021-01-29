@@ -23,7 +23,7 @@ namespace Domain.Ads.Ad
 
         private Ad()
         {
-            // Needed for EF
+            // For EF
         }
 
         private Ad(User user, Name name, Description? description, Keywords? keywords)
@@ -33,7 +33,7 @@ namespace Domain.Ads.Ad
             this.description = description;
             this.keywords = keywords;
             this.pictures = new List<Picture>();
-            publish = new PublishInformation();
+            publish = new PublishInformation(PublishStatus.NotPublished);
         }
 
         public void AddPicture(Picture picture) {
@@ -66,14 +66,23 @@ namespace Domain.Ads.Ad
         }
 
         public User User => user;
+        
         public Name Name => name;
+
         public Description? Description => description;
+
         public YoutubeUrl? YoutubeUrl => youtubeUrl;
+
         public IEnumerable<Picture> Pictures => pictures;
+
         public PublishInformation Publish => publish;
+        
         public Keywords? Keywords => keywords;
+
         public DateTime CreationDate => creationDate;
+
         public DateTime UpdateDate => updateDate;
+
         public DateTime? DeleteDate => deleteDate;
     }
 }

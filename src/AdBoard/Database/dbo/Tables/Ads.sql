@@ -1,6 +1,6 @@
-﻿CREATE TABLE [dbo].[Ad] (
+﻿CREATE TABLE [dbo].[Ads] (
     [Id]             UNIQUEIDENTIFIER NOT NULL,
-    [UserId]         UNIQUEIDENTIFIER NOT NULL,
+    [UsersId]        NVARCHAR (450)   NOT NULL,
     [Name]           NVARCHAR (100)   NOT NULL,
     [Description]    NVARCHAR (800)   NULL,
     [YoutubeUrl]     NVARCHAR (1024)  NULL,
@@ -11,6 +11,7 @@
     [RejectionCount] INT              CONSTRAINT [DF_Ad_RejectionCount] DEFAULT ((0)) NOT NULL,
     [PublishStatus]  INT              NOT NULL,
     [PublishDate]    DATETIME2 (7)    NULL,
-    CONSTRAINT [PK_Ad] PRIMARY KEY CLUSTERED ([Id] ASC)
+    CONSTRAINT [PK_Ads] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Ads_AspNetUsers] FOREIGN KEY ([UsersId]) REFERENCES [dbo].[AspNetUsers] ([Id])
 );
 

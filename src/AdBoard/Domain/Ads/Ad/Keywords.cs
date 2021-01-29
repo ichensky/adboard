@@ -4,22 +4,16 @@ using System.Linq;
 
 namespace Domain.Ads.Ad
 {
-    public class Keywords : ValueObject
+    public class Keywords : SingleValueObject<string>
     {
-        private string keywords;
-
-        public Keywords(string keywords)
+        private Keywords()
         {
-            CheckChangeRule(keywords);
-            this.keywords = keywords;
+            // For EF
         }
 
-        public void ChangeDescription(string newKeywords)
-        {
-            CheckChangeRule(keywords);
-            keywords = newKeywords;
-        }
-        private void CheckChangeRule(string keywords)
+        public Keywords(string keywords) : base(keywords) { }
+
+        protected override void CheckChangeRule(string keywords)
         {
             if (keywords.Length > 120 || keywords.Count(x => x == ',') > 4)
             {

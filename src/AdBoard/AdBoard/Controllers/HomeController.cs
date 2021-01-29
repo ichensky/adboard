@@ -1,6 +1,4 @@
 ﻿using AdBoard.Models;
-using Application.Users.GetUserName;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,17 +12,14 @@ namespace AdBoard.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IMediator _mediatr;
 
-        public HomeController(ILogger<HomeController> logger, IMediator mediator)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _mediatr = mediator;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            await _mediatr.Send(new GetUserNameQuery(Guid.NewGuid()));
             return View();
         }
 

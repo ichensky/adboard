@@ -3,22 +3,16 @@ using Domain.Core.BusinessRules;
 
 namespace Domain.Ads.Ad
 {
-    public class YoutubeUrl : ValueObject
+    public class YoutubeUrl : SingleValueObject<string>
     {
-        private string youtubeUrl;
-
-        public YoutubeUrl(string youtubeUrl)
+        private YoutubeUrl()
         {
-            CheckChangeRule(youtubeUrl);
-            this.youtubeUrl = youtubeUrl;
+            // For EF
         }
 
-        public void ChangeyoutubeUrl(string newYoutubeUrl)
-        {
-            CheckChangeRule(youtubeUrl);
-            youtubeUrl = newYoutubeUrl;
-        }
-        private void CheckChangeRule(string youtubeUrl)
+        public YoutubeUrl(string name) : base(name) { }
+
+        protected override void CheckChangeRule(string youtubeUrl)
         {
             if (youtubeUrl.Length > 1024 || !youtubeUrl.StartsWith("https://yout"))
             {

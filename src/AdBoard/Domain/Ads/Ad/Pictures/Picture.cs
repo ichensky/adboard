@@ -10,6 +10,9 @@ namespace Domain.Ads.Ad.Pictures
         private int order;
         private DateTime creationDate;
 
+        private Picture() {
+            // For EF
+        }
         public Picture(string? googleId, Description? description, int order, DateTime creationDate)
         {
             this.googleId = googleId;

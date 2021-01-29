@@ -1,7 +1,4 @@
 ﻿using Domain.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Users
 {
@@ -10,6 +7,11 @@ namespace Domain.Users
         private readonly Name name;
         private readonly ContactInformation contactInformation;
 
+        private User()
+        {
+            // For EF
+        }
+
         public User(Name name, ContactInformation contactInformation)
         {
             this.name = name;
@@ -17,6 +19,7 @@ namespace Domain.Users
         }
 
         public Name Name => name;
+
         public ContactInformation ContactInformation => contactInformation;
     }
 }

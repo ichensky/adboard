@@ -1,10 +1,12 @@
 using Application.Configuration.Data;
-using Application.Configuration.Queries;
 using Infrastucture.Database;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,8 +29,14 @@ namespace AdBoard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("AdBoardContextConnection");
+            services.AddDbContext<AdBoardDbContext>(options =>
+                options.UseSqlServer(connectionString));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<AdBoardDbContext>();
             services.AddControllersWithViews();
-            var connectionString = Configuration.GetConnectionString("AdBoardConnectionString");
+            services.AddRazorPages();
+
             services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(connectionString));
             services.AddMediatR(typeof(ISqlConnectionFactory).Assembly);
         }
@@ -39,6 +47,7 @@ namespace AdBoard
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -51,6 +60,7 @@ namespace AdBoard
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -58,6 +68,7 @@ namespace AdBoard
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
