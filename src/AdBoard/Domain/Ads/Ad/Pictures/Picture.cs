@@ -1,4 +1,5 @@
 ﻿using Domain.Core;
+using System;
 
 namespace Domain.Ads.Ad.Pictures
 {
@@ -7,12 +8,14 @@ namespace Domain.Ads.Ad.Pictures
         private readonly string? googleId;
         private Description? description;
         private int order;
+        private DateTime creationDate;
 
-        public Picture(string? googleId, Description? description, int order)
+        public Picture(string? googleId, Description? description, int order, DateTime creationDate)
         {
             this.googleId = googleId;
             this.description = description;
             this.order = order;
+            this.creationDate = creationDate;
         }
 
         public void ChangeOrder(int order) => this.order = order;
@@ -24,5 +27,7 @@ namespace Domain.Ads.Ad.Pictures
         public int Order => order;
 
         public Description? Description => description;
+
+        public DateTime CreationDate { get => creationDate; }
     }
 }

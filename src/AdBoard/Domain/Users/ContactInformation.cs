@@ -39,6 +39,6 @@ namespace Domain.Users
         }
 
         public string PhoneNumber { get => phoneNumber; }
-        public string Telegram { get => telegram; }
+        public string? Telegram { get => telegram; }
     }
 }

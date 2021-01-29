@@ -8,7 +8,6 @@ namespace Domain.Ads.Ad
         private int rejectionCount;
         private PublishStatus status;
         private DateTime? publishDate;
-        public string rejectionMessage = string.Empty;
 
         public PublishInformation() { }
 
@@ -26,7 +25,6 @@ namespace Domain.Ads.Ad
         {
             rejectionCount++;
             status = forever ? PublishStatus.RejectedForEverByModerator : PublishStatus.RejectedByModerator;
-            this.rejectionMessage = rejectionMessage;
         }
 
         public DateTime? PublishDate => publishDate;

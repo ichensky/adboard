@@ -24,7 +24,7 @@ namespace Domain.Ads.Ad.Pictures
             {
                 throw new BusinessRuleValidationException("Desctription should have at least 3 charters.");
             }
-            if (description.Length > 100)
+            if (description.Length > 128)
             {
                 throw new BusinessRuleValidationException("Desctription should have maximum 100 charters.");
             }
