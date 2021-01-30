@@ -3,9 +3,9 @@ using System;
 
 namespace Application.Users.GetUserName
 {
-    public class GetUserNameQuery : IQuery<UserNameDto>
+    public class GetAdUserNameQuery : IQuery<AdUserNameDto>
     {
-        public GetUserNameQuery(Guid userId)
+        public GetAdUserNameQuery(Guid userId)
         {
             UserId = userId;
         }

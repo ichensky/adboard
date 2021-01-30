@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Users.GetUserName
 {
-    public class UserNameDto
+    public class AdUserNameDto
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

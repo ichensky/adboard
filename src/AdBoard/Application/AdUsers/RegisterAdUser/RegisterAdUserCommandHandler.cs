@@ -1,5 +1,4 @@
 ﻿using Application.Configuration.Commands;
-using Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Users.AddUser
+namespace Application.AdUsers.RegisterAdUser
 {
     //public class RegisterUserCommandHandler : ICommandHandler<RegisterUserCommand, UserDto>
     //{

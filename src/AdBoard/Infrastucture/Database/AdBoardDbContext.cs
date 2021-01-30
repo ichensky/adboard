@@ -1,6 +1,7 @@
 ﻿using Domain.Ads.Ad;
 using Domain.Ads.Ad.Pictures;
-using Domain.Users;
+using Domain.AdUsers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,7 +16,7 @@ namespace Infrastucture.Database
     {
         public DbSet<Ad>? Ads { get; set; }
 
-        public DbSet<User>? AdBoardUsers { get; set; }
+        public DbSet<AdUser>? AdBoardUsers { get; set; }
 
         public DbSet<Picture>? Pictures { get; set; }
 
@@ -23,7 +24,9 @@ namespace Infrastucture.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdBoardDbContext).Assembly);
+           
         }
     }
 }

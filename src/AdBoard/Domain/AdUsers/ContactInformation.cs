@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Users
+namespace Domain.AdUsers
 {
     public class ContactInformation
     {
@@ -18,11 +18,12 @@ namespace Domain.Users
             this.telegram = telegram;
         }
 
-        private void CheckChangePhone(string phoneNumber) {
+        private void CheckChangePhone(string phoneNumber)
+        {
             if (phoneNumber.Length != "+380631122333".Length || !phoneNumber.StartsWith("+380"))
             {
                 throw new BusinessRuleValidationException("Phone number should be valid.");
-            }        
+            }
         }
 
         private void CheckChangeTelegram(string? telegram)

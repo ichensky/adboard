@@ -1,7 +1,7 @@
 ﻿using Domain.Ads.Ad.Pictures;
+using Domain.AdUsers;
 using Domain.Core;
 using Domain.Core.BusinessRules;
-using Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Domain.Ads.Ad
 {
     public class Ad : AggregateRoot
     {
-        private readonly User user;
+        private readonly AdUser user;
         private readonly Name name;
         private readonly Description? description;
         private readonly YoutubeUrl? youtubeUrl;
@@ -26,7 +26,7 @@ namespace Domain.Ads.Ad
             // For EF
         }
 
-        private Ad(User user, Name name, Description? description, Keywords? keywords)
+        private Ad(AdUser user, Name name, Description? description, Keywords? keywords)
         {
             this.user = user;
             this.name = name;
@@ -65,7 +65,7 @@ namespace Domain.Ads.Ad
             this.publish.UserPublishAd();
         }
 
-        public User User => user;
+        public AdUser User => user;
         
         public Name Name => name;
 

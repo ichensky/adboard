@@ -51,7 +51,7 @@ namespace Infrastucture.Domain.Ads
                     y.Property(x => x!.Value).HasColumnName(nameof(Ad.Description));
                 });
 
-                y.WithOwner().HasForeignKey("AdsId");
+                y.WithOwner().HasForeignKey("AdUsersId");
             });
         }
     }

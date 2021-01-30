@@ -2,7 +2,7 @@
 
 namespace Application.Users.AddUser
 {
-    public class UserDto
+    public class AdUserDto
     {
         public Guid Id { get; set; }
     }

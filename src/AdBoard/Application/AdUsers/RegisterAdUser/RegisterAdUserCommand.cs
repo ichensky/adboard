@@ -1,15 +1,16 @@
 ﻿using Application.Configuration.Commands;
+using Application.Users.AddUser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Users.AddUser
+namespace Application.AdUsers.RegisterAdUser
 {
-    public class RegisterUserCommand : CommandBase<UserDto>
+    public class RegisterAdUserCommand : CommandBase<AdUserDto>
     {
-        public RegisterUserCommand(string firstName, string secondName, string phoneNumber, string telegram)
+        public RegisterAdUserCommand(string firstName, string secondName, string phoneNumber, string telegram)
         {
             FirstName = firstName;
             SecondName = secondName;

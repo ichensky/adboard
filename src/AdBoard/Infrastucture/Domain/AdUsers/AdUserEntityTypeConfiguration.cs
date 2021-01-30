@@ -1,14 +1,16 @@
-﻿using Domain.Users;
+﻿using Domain.AdUsers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Infrastucture.Domain.Users
+namespace Infrastucture.Domain.AdUsers
 {
-    public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
+    public class AdUserEntityTypeConfiguration : IEntityTypeConfiguration<AdUser>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<AdUser> builder)
         {
-            builder.ToTable("AspNetUsers");
+            builder.ToTable("AdUsers");
 
             builder.HasKey(b => b.Id);
             builder.OwnsOne(x => x.Name, y =>

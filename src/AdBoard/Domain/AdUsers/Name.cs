@@ -1,7 +1,7 @@
 ﻿using Domain.Core;
 using Domain.Core.BusinessRules;
 
-namespace Domain.Users
+namespace Domain.AdUsers
 {
     public class Name : ValueObject
     {
@@ -17,7 +17,8 @@ namespace Domain.Users
             this.secondName = secondName;
         }
 
-        private void CheckName(string name, string propName) {
+        private void CheckName(string name, string propName)
+        {
             if (name.Length < 2)
             {
                 throw new BusinessRuleValidationException($"{propName} should have at least 2 charters");

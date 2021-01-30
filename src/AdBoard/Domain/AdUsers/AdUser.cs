@@ -1,19 +1,23 @@
 ﻿using Domain.Core;
+using Microsoft.AspNetCore.Identity;
+using System;
 
-namespace Domain.Users
+namespace Domain.AdUsers
 {
-    public class User : AggregateRoot
+    public class AdUser : AggregateRoot
     {
+        private readonly Guid userId;
         private readonly Name name;
         private readonly ContactInformation contactInformation;
 
-        private User()
+        private AdUser()
         {
             // For EF
         }
 
-        public User(Name name, ContactInformation contactInformation)
+        public AdUser(Guid userId, Name name, ContactInformation contactInformation)
         {
+            this.userId = userId;
             this.name = name;
             this.contactInformation = contactInformation;
         }
@@ -21,5 +25,7 @@ namespace Domain.Users
         public Name Name => name;
 
         public ContactInformation ContactInformation => contactInformation;
+
+        public Guid UserId => userId;
     }
 }

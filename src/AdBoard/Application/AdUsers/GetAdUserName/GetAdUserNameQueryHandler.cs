@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace Application.Users.GetUserName
 {
-    public class GetUserNameQueryHandler : IQueryHandler<GetUserNameQuery, UserNameDto>
+    public class GetAdUserNameQueryHandler : IQueryHandler<GetAdUserNameQuery, AdUserNameDto>
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-        public GetUserNameQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
+        public GetAdUserNameQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public Task<UserNameDto> Handle(GetUserNameQuery request, CancellationToken cancellationToken)
+        public Task<AdUserNameDto> Handle(GetAdUserNameQuery request, CancellationToken cancellationToken)
         {
             const string sql = "SELECT " +
                               "[User].[Id], " +
@@ -30,7 +30,7 @@ namespace Application.Users.GetUserName
 
             var connection = _sqlConnectionFactory.GetOpenConnection();
 
-            return connection.QuerySingleAsync<UserNameDto>(sql, new
+            return connection.QuerySingleAsync<AdUserNameDto>(sql, new
             {
                 request.UserId
             });
