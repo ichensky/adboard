@@ -119,6 +119,15 @@ namespace AdBoard.Areas.Identity.Pages.Account
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
+            var tokens = info.AuthenticationProperties;
+            string picture = null;
+            if (!info.AuthenticationProperties.Items.ContainsKey("picture"))
+            {
+                picture = info.AuthenticationProperties.Items["picture"];
+            }
+            var firstName = info.Principal.FindFirst(ClaimTypes.GivenName);
+            var secondName = info.Principal.FindFirst(ClaimTypes.Surname);
+
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };

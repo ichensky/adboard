@@ -9,17 +9,19 @@ namespace Domain.AdUsers
         private readonly Guid userId;
         private readonly Name name;
         private readonly ContactInformation contactInformation;
+        private Picture? picture;
 
         private AdUser()
         {
             // For EF
         }
 
-        public AdUser(Guid userId, Name name, ContactInformation contactInformation)
+        public AdUser(Guid userId, Name name, ContactInformation contactInformation, Picture? picture)
         {
             this.userId = userId;
             this.name = name;
             this.contactInformation = contactInformation;
+            this.picture = picture;
         }
 
         public Name Name => name;
@@ -27,5 +29,7 @@ namespace Domain.AdUsers
         public ContactInformation ContactInformation => contactInformation;
 
         public Guid UserId => userId;
+
+        public Picture? Picture => picture;
     }
 }

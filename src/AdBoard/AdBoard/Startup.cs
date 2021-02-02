@@ -1,6 +1,8 @@
 using Application.Configuration.Data;
 using Infrastucture.Database;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,9 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AdBoard
@@ -29,6 +33,24 @@ namespace AdBoard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = Configuration["Authentication:Facebook:AppId"];
+                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                options.AccessDeniedPath = "/AccessDeniedPathInfo";
+                options.Fields.Add("picture");
+                options.Events = new OAuthEvents
+                {
+                    OnCreatingTicket = context =>
+                    {
+                        var picture = context.User.GetProperty("picture").GetProperty("data").GetProperty("url").GetString();
+
+                        context.Properties.Items.Add("picture", picture);
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
             var connectionString = Configuration.GetConnectionString("AdBoardContextConnection");
             services.AddDbContext<AdBoardDbContext>(options =>
                 options.UseSqlServer(connectionString));

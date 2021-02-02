@@ -5,6 +5,7 @@ using Domain.Core.BusinessRules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Picture = Domain.Ads.Ad.Pictures.Picture;
 
 namespace Domain.Ads.Ad
 {

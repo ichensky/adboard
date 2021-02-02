@@ -24,6 +24,11 @@ namespace Infrastucture.Domain.AdUsers
                 y.Property(x => x.PhoneNumber);
                 y.Property(x => x.Telegram);
             });
+
+            builder.OwnsOne(x => x.Picture, y =>
+            {
+                y.Property(x => x!.Value);
+            });
         }
     }
 }

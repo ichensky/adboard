@@ -40,6 +40,7 @@ namespace Domain.AdUsers
         }
 
         public string PhoneNumber { get => phoneNumber; }
+
         public string? Telegram { get => telegram; }
     }
 }
