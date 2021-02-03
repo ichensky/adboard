@@ -1,7 +1,7 @@
 ﻿using Domain.Core;
 using Domain.Core.BusinessRules;
 
-namespace Domain.AdUsers
+namespace Domain.UserProfiles
 {
     public class Picture : SingleValueObject<string>
     {

@@ -9,6 +9,7 @@ namespace Domain.Ads.Ad.Pictures
         private Description? description;
         private int order;
         private DateTime creationDate;
+        private readonly TypedIdValueObject id;
 
         private Picture() {
             // For EF
@@ -19,6 +20,7 @@ namespace Domain.Ads.Ad.Pictures
             this.description = description;
             this.order = order;
             this.creationDate = creationDate;
+            this.id = new TypedIdValueObject(Guid.NewGuid());
         }
 
         public void ChangeOrder(int order) => this.order = order;
@@ -32,5 +34,7 @@ namespace Domain.Ads.Ad.Pictures
         public Description? Description => description;
 
         public DateTime CreationDate { get => creationDate; }
+
+        public TypedIdValueObject Id => id;
     }
 }

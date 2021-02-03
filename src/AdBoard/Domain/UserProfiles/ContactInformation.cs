@@ -5,21 +5,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.AdUsers
+namespace Domain.UserProfiles
 {
     public class ContactInformation
     {
-        private string phoneNumber;
+        private string? phoneNumber;
         private string? telegram;
 
-        public ContactInformation(string phoneNumber, string? telegram)
+        public ContactInformation(string? phoneNumber, string? telegram)
         {
+            CheckChangePhone(phoneNumber);
+            CheckChangeTelegram(telegram);
             this.phoneNumber = phoneNumber;
             this.telegram = telegram;
         }
 
-        private void CheckChangePhone(string phoneNumber)
+        private void CheckChangePhone(string? phoneNumber)
         {
+            if (string.IsNullOrEmpty(phoneNumber))
+            {
+                return;
+            }
             if (phoneNumber.Length != "+380631122333".Length || !phoneNumber.StartsWith("+380"))
             {
                 throw new BusinessRuleValidationException("Phone number should be valid.");
@@ -39,7 +45,7 @@ namespace Domain.AdUsers
             }
         }
 
-        public string PhoneNumber { get => phoneNumber; }
+        public string? PhoneNumber { get => phoneNumber; }
 
         public string? Telegram { get => telegram; }
     }

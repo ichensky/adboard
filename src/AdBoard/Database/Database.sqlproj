@@ -77,9 +77,9 @@
     <Build Include="dbo\Tables\AspNetUserClaims.sql" />
     <Build Include="dbo\Tables\AspNetRoles.sql" />
     <Build Include="dbo\Tables\AspNetRoleClaims.sql" />
-    <Build Include="dbo\Tables\AdUsers.sql" />
     <Build Include="dbo\Tables\Ads.sql" />
     <None Include="Post\PopulateData\AspNetRoles.sql" />
+    <Build Include="dbo\Tables\UserProfiles.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />

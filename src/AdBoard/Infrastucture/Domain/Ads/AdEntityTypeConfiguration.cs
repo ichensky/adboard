@@ -1,4 +1,5 @@
 ﻿using Domain.Ads.Ad;
+using Domain.Ads.Ad.Pictures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +16,10 @@ namespace Infrastucture.Domain.Ads
             builder.Property(x => x.DeleteDate);
             builder.Property(x => x.UpdateDate);
 
+            //builder.OwnsOne(x => x.Id, y =>
+            //{
+            //    y.Property(x => x!.Value).HasColumnName(nameof(Ad.Id));
+            //});
             builder.OwnsOne(x => x.Description, y =>
             {
                 y.Property(x => x!.Value).HasColumnName(nameof(Ad.Description));
@@ -46,9 +51,13 @@ namespace Infrastucture.Domain.Ads
                 y.Property(x => x.GoogleId);
                 y.Property(x => x.Order);
 
+                //builder.OwnsOne(x => x.Id, y =>
+                //{
+                //    y.Property(x => x!.Value).HasColumnName(nameof(Picture.Id));
+                //});
                 builder.OwnsOne(x => x.Description, y =>
                 {
-                    y.Property(x => x!.Value).HasColumnName(nameof(Ad.Description));
+                    y.Property(x => x!.Value).HasColumnName(nameof(Picture.Description));
                 });
 
                 y.WithOwner().HasForeignKey("AdUsersId");

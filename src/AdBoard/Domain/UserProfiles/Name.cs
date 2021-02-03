@@ -1,20 +1,20 @@
 ﻿using Domain.Core;
 using Domain.Core.BusinessRules;
 
-namespace Domain.AdUsers
+namespace Domain.UserProfiles
 {
     public class Name : ValueObject
     {
         private readonly string firstName;
-        private readonly string secondName;
+        private readonly string lastName;
 
-        public Name(string firstName, string secondName)
+        public Name(string firstName, string lastName)
         {
             CheckName(firstName, nameof(firstName));
-            CheckName(secondName, nameof(secondName));
+            CheckName(lastName, nameof(lastName));
 
             this.firstName = firstName;
-            this.secondName = secondName;
+            this.lastName = lastName;
         }
 
         private void CheckName(string name, string propName)
@@ -25,14 +25,14 @@ namespace Domain.AdUsers
             }
             if (name.Length > 30)
             {
-                throw new BusinessRuleValidationException($"{secondName} should have maximum 30 charters");
+                throw new BusinessRuleValidationException($"{lastName} should have maximum 30 charters");
             }
         }
 
         public string FirstName => firstName;
 
-        public string SecondName => secondName;
+        public string LastName => lastName;
 
-        public override string ToString() => $"{firstName} {secondName}";
+        public override string ToString() => $"{firstName} {lastName}";
     }
 }

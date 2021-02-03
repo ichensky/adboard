@@ -1,7 +1,7 @@
 ﻿using Domain.Ads.Ad.Pictures;
-using Domain.AdUsers;
 using Domain.Core;
 using Domain.Core.BusinessRules;
+using Domain.UserProfiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace Domain.Ads.Ad
 {
     public class Ad : AggregateRoot
     {
-        private readonly AdUser user;
+        private readonly UserProfile user;
         private readonly Name name;
         private readonly Description? description;
         private readonly YoutubeUrl? youtubeUrl;
@@ -21,13 +21,14 @@ namespace Domain.Ads.Ad
         private readonly DateTime creationDate;
         private readonly DateTime? deleteDate;
         private readonly DateTime updateDate;
+        private readonly TypedIdValueObject id;
 
         private Ad()
         {
             // For EF
         }
 
-        private Ad(AdUser user, Name name, Description? description, Keywords? keywords)
+        private Ad(UserProfile user, Name name, Description? description, Keywords? keywords)
         {
             this.user = user;
             this.name = name;
@@ -35,6 +36,7 @@ namespace Domain.Ads.Ad
             this.keywords = keywords;
             this.pictures = new List<Picture>();
             publish = new PublishInformation(PublishStatus.NotPublished);
+            this.id = new TypedIdValueObject(Guid.NewGuid());
         }
 
         public void AddPicture(Picture picture) {
@@ -66,7 +68,9 @@ namespace Domain.Ads.Ad
             this.publish.UserPublishAd();
         }
 
-        public AdUser User => user;
+        public TypedIdValueObject Id { get; }
+
+        public UserProfile User => user;
         
         public Name Name => name;
 
