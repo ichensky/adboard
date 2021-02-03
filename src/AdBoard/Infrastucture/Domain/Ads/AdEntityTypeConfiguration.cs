@@ -12,14 +12,10 @@ namespace Infrastucture.Domain.Ads
             builder.ToTable("Ads");
 
             builder.HasKey(b => b.Id);
-            builder.Property(x => x.CreationDate);
-            builder.Property(x => x.DeleteDate);
-            builder.Property(x => x.UpdateDate);
+            builder.Property(x => x.CreationDate).HasColumnName(nameof(Ad.CreationDate));
+            builder.Property(x => x.DeleteDate).HasColumnName(nameof(Ad.DeleteDate));
+            builder.Property(x => x.UpdateDate).HasColumnName(nameof(Ad.UpdateDate));
 
-            //builder.OwnsOne(x => x.Id, y =>
-            //{
-            //    y.Property(x => x!.Value).HasColumnName(nameof(Ad.Id));
-            //});
             builder.OwnsOne(x => x.Description, y =>
             {
                 y.Property(x => x!.Value).HasColumnName(nameof(Ad.Description));
@@ -39,28 +35,24 @@ namespace Infrastucture.Domain.Ads
 
             builder.OwnsOne(x => x.Publish, y =>
             {
-                y.Property(x => x.PublishDate);
-                y.Property(x => x.RejectionCount);
-                y.Property(x => x.Status);
+                y.Property(x => x.PublishDate).HasColumnName(nameof(Ad.Publish.PublishDate));
+                y.Property(x => x.RejectionCount).HasColumnName(nameof(Ad.Publish.RejectionCount));
+                y.Property(x => x.Status).HasColumnName(nameof(Ad.Publish.Status));
             });
 
             builder.OwnsMany(x => x.Pictures, y =>
             {
                 y.HasKey(x => x.Id);
-                y.Property(x => x.CreationDate);
-                y.Property(x => x.GoogleId);
-                y.Property(x => x.Order);
+                y.Property(x => x.CreationDate).HasColumnName(nameof(Picture.CreationDate));
+                y.Property(x => x.GoogleId).HasColumnName(nameof(Picture.GoogleId));
+                y.Property(x => x.Order).HasColumnName(nameof(Picture.Order));
 
-                //builder.OwnsOne(x => x.Id, y =>
-                //{
-                //    y.Property(x => x!.Value).HasColumnName(nameof(Picture.Id));
-                //});
                 builder.OwnsOne(x => x.Description, y =>
                 {
                     y.Property(x => x!.Value).HasColumnName(nameof(Picture.Description));
                 });
 
-                y.WithOwner().HasForeignKey("AdUsersId");
+                y.WithOwner().HasForeignKey("UserProfilesId");
             });
         }
     }
