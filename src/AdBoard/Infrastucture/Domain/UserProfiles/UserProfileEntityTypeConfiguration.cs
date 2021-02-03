@@ -14,24 +14,20 @@ namespace Infrastucture.Domain.UserProfiles
 
             builder.HasKey(b => b.Id);
 
-            //builder.OwnsOne(x => x.Id, y =>
-            //{
-            //    y.Property(x => x!.Value).HasColumnName(nameof(UserProfile.Id));
-            //});
             builder.OwnsOne(x => x.Name!, y =>
             {
-                y.Property(x => x.FirstName);
-                y.Property(x => x.LastName);
+                y.Property(x => x.FirstName).HasColumnName(nameof(UserProfile.Name.FirstName));
+                y.Property(x => x.LastName).HasColumnName(nameof(UserProfile.Name.LastName));
             });
             builder.OwnsOne(x => x.ContactInformation!, y =>
             {
-                y.Property(x => x.PhoneNumber);
-                y.Property(x => x.Telegram);
+                y.Property(x => x.PhoneNumber).HasColumnName(nameof(UserProfile.ContactInformation.PhoneNumber));
+                y.Property(x => x.Telegram).HasColumnName(nameof(UserProfile.ContactInformation.Telegram));
             });
 
             builder.OwnsOne(x => x.Picture!, y =>
             {
-                y.Property(x => x.Value);
+                y.Property(x => x.Value).HasColumnName(nameof(UserProfile.Picture));
             });
         }
     }
