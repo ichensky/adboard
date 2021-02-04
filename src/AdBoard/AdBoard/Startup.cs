@@ -1,6 +1,9 @@
 using Application.Configuration.Data;
+using Application.Configuration.Validation;
+using Application.UserProfiles.GetName;
 using Domain.Core;
 using Domain.UserProfiles;
+using FluentValidation;
 using Infrastucture.Core;
 using Infrastucture.Database;
 using Infrastucture.Domain;
@@ -25,6 +28,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Reflection;
+using Application.UserProfiles.CreateUserProfile;
+using AdBoard.Helpers.Reflection;
+using Infrastucture.Processing;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
+using Infrastucture.Mapping.UserProfiles;
 
 namespace AdBoard
 {
@@ -40,6 +51,16 @@ namespace AdBoard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingUserProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+
+            // fb auth
             services.AddAuthentication().AddFacebook(options =>
             {
                 options.AppId = Configuration["Authentication:Facebook:AppId"];
@@ -62,6 +83,7 @@ namespace AdBoard
             });
 
 
+            // db
             var connectionString = Configuration.GetConnectionString("AdBoardContextConnection");
 
             services.AddDbContext<AdBoardDbContext>(options => {
@@ -71,17 +93,20 @@ namespace AdBoard
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<AdBoardDbContext>();
 
-
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-
             services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(connectionString));
-            services.AddMediatR(typeof(ISqlConnectionFactory).Assembly);
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
 
+            // asp.net core
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule<MediatorModule>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

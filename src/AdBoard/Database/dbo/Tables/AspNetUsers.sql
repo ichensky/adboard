@@ -14,11 +14,10 @@
     [LockoutEnd]           DATETIMEOFFSET (7) NULL,
     [LockoutEnabled]       BIT                NOT NULL,
     [AccessFailedCount]    INT                NOT NULL,
-    [FirstName]            NVARCHAR (50)      NULL,
-    [SecondName]           NVARCHAR (50)      NULL,
-    [Telegram]             NCHAR (50)         NULL,
     CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 GO

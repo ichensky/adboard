@@ -10,16 +10,16 @@ namespace Application.Configuration.Validation
 {
     public class CommandValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
     {
-        private readonly IList<IValidator<TRequest>> validators;
+        private readonly IList<IValidator<TRequest>> _validators;
 
         public CommandValidationBehavior(IList<IValidator<TRequest>> validators)
         {
-            this.validators = validators;
+            this._validators = validators;
         }
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var errors = validators
+            var errors = _validators
                 .Select(v => v.Validate(request))
                 .SelectMany(result => result.Errors)
                 .Where(error => error != null)

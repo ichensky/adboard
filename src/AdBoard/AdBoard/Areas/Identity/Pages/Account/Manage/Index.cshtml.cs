@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AdBoard.Helpers.AspNetClaims;
+using Application.UserProfiles.GetUserProfile;
+using Application.UserProfiles.UpdateUserProfileContactInformation;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,16 +17,23 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IMediator mediator;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            IMediator mediator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.mediator = mediator;
         }
 
-        public string Username { get; set; }
+        public string FirstName { get; private set; }
+
+        public string LastName { get; private set; }
+
+        public string Picture { get; private set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -33,20 +44,30 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Phone number", Prompt ="+380...")]
+            [MaxLength(20)]
             public string PhoneNumber { get; set; }
+
+            [MaxLength(30)]
+            public string Telegram { get; set; }
+            
+            [MaxLength(30)]
+            public string Instagram { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync()
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var userProfile = await mediator.Send(new GetUserProfileQuery(User.GetUserId()));
 
-            Username = userName;
+            FirstName = userProfile.FirstName;
+            LastName = userProfile.LastName;
+            Picture = userProfile.Picture;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                Telegram = userProfile.Telegram,
+                Instagram=userProfile.Instagram,
+                PhoneNumber=userProfile.PhoneNumber                
             };
         }
 
@@ -58,7 +79,7 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            await LoadAsync(user);
+            await LoadAsync();
             return Page();
         }
 
@@ -72,7 +93,7 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                await LoadAsync();
                 return Page();
             }
 
@@ -86,6 +107,8 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            await mediator.Send(new UpdateUserProfileContactInformationCommand(User.GetUserId(), Input.Telegram, Input.Instagram, Input.PhoneNumber));
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

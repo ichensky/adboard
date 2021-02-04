@@ -23,6 +23,9 @@ namespace Application.Configuration.Commands
 
     public abstract class CommandBase<TResult> : ICommand<TResult>
     {
+        /// <summary>
+        /// Command Id
+        /// </summary>
         public Guid Id { get; }
 
         protected CommandBase()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Core;
+using System;
 using System.Threading.Tasks;
 
 namespace Domain.UserProfiles
@@ -10,7 +11,7 @@ namespace Domain.UserProfiles
     {
         Task AddAsync(UserProfile userProfile);
 
-        Task<UserProfile> GetAsync(Guid id);
+        Task<UserProfile> GetAsync(TypedIdValueObject userProfileId);
 
         UserProfile Update(UserProfile userProfile);
     }

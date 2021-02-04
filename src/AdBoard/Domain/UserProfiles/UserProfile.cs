@@ -8,32 +8,38 @@ namespace Domain.UserProfiles
     {
         private TypedIdValueObject id;
         private Name name;
-        private ContactInformation? contactInformation;
-        private Picture? picture;
+        private ContactInformation contactInformation;
+        private Picture picture;
 
         private UserProfile()
         {
             // For EF
         }
 
-        private UserProfile(TypedIdValueObject id, Name name, Picture? picture)
+        private UserProfile(TypedIdValueObject id, Name name, Picture picture)
         {
             this.id = id;
             this.name = name;
             this.picture = picture;
+            this.contactInformation = ContactInformation.Null();
         }
 
-        public static UserProfile CreateUserProfile(TypedIdValueObject id, Name name, Picture? picture) 
+        public static UserProfile CreateUserProfile(TypedIdValueObject id, Name name, Picture picture) 
         {
             return new UserProfile(id, name, picture);
         }
 
-        public ContactInformation? ContactInformation => contactInformation;
+        public ContactInformation ContactInformation => contactInformation;
 
         public TypedIdValueObject Id => id;
 
-        public Picture? Picture => picture;
+        public Picture Picture => picture;
 
         public Name Name => name;
+
+        public void UpdateUserProfile(ContactInformation contactInformation)
+        {
+            this.contactInformation = contactInformation;
+        }
     }
 }

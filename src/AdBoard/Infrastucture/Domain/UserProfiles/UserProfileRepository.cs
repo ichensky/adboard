@@ -1,4 +1,5 @@
-﻿using Domain.UserProfiles;
+﻿using Domain.Core;
+using Domain.UserProfiles;
 using Infrastucture.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,9 +16,9 @@ namespace Infrastucture.Domain.UserProfiles
             this.context = context;
         }
 
-        public async Task<UserProfile> GetAsync(Guid id)
+        public async Task<UserProfile> GetAsync(TypedIdValueObject userProfileId)
         {
-            return await context.UserProfiles.SingleOrDefaultAsync(x => x.Id.Value == id);
+            return await context.UserProfiles.SingleOrDefaultAsync(x => x.Id == userProfileId);
         }
 
         public UserProfile Update(UserProfile userProfile)

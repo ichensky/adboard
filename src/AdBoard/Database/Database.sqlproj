@@ -64,9 +64,11 @@
     <Folder Include="Post" />
     <Folder Include="Post\PopulateData" />
     <Folder Include="Post\PopulateTestData" />
+    <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="local.publish.xml" />
+    <None Include="Scripts\CleanDb.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Pictures.sql" />
