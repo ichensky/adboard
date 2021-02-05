@@ -36,7 +36,7 @@ namespace Application.Configuration.Validation
                     errorBuilder.AppendLine(error.ErrorMessage);
                 }
 
-                throw new InvalidCommandException(errorBuilder.ToString(), null);
+                throw new InvalidCommandException(errorBuilder.ToString());
             }
 
             return next();

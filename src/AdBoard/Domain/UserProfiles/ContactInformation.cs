@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Domain.UserProfiles
@@ -33,14 +34,14 @@ namespace Domain.UserProfiles
 
         private void CheckChangeInstagram(string? instagram)
         {
-            if (string.IsNullOrEmpty(telegram))
+            if (string.IsNullOrEmpty(instagram))
             {
                 return;
             }
 
-            if (telegram.Length > 30 || !telegram.StartsWith("@"))
+            if (instagram.Length > 30 || !Regex.IsMatch(instagram, "@[a-zA-Z0-9_.-]+"))
             {
-                throw new BusinessRuleValidationException("Instagram number should be valid.");
+                throw new BusinessRuleValidationException("Instagram should be valid.");
             }
         }
 
@@ -50,7 +51,9 @@ namespace Domain.UserProfiles
             {
                 return;
             }
-            if (phoneNumber.Length != "+380631122333".Length || !phoneNumber.StartsWith("+380"))
+            if (phoneNumber.Length != "+380631122333".Length 
+                || !Regex.IsMatch(phoneNumber, "\\+380[0-9]")
+                )
             {
                 throw new BusinessRuleValidationException("Phone number should be valid.");
             }
@@ -63,9 +66,9 @@ namespace Domain.UserProfiles
                 return;
             }
 
-            if (telegram.Length > 30 || !telegram.StartsWith("@"))
+            if (telegram.Length > 30 || !Regex.IsMatch(telegram, "@[a-zA-Z0-9_.-]+"))
             {
-                throw new BusinessRuleValidationException("Telegram number should be valid.");
+                throw new BusinessRuleValidationException("Telegram should be valid.");
             }
         }
 

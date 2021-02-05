@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AdBoard.ExceptionHandling;
 using AdBoard.Helpers.AspNetClaims;
 using Application.UserProfiles.GetUserProfile;
 using Application.UserProfiles.UpdateUserProfileContactInformation;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,15 +20,17 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IMediator mediator;
+        private readonly IRazorPagesRequestExceptionHandler razorPagesRequestExceptionHandler;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IMediator mediator)
+            IMediator mediator, IRazorPagesRequestExceptionHandler razorPagesRequestExceptionHandler)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             this.mediator = mediator;
+            this.razorPagesRequestExceptionHandler = razorPagesRequestExceptionHandler;
         }
 
         public string FirstName { get; private set; }
@@ -43,15 +47,16 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Phone]
-            [Display(Name = "Phone number", Prompt ="+380...")]
+            [Display(Name = "Phone number", Prompt = "+380...")]
             [MaxLength(20)]
             public string PhoneNumber { get; set; }
 
             [MaxLength(30)]
+            [Display(Prompt ="@xxx...")]
             public string Telegram { get; set; }
             
             [MaxLength(30)]
+            [Display(Prompt ="@yyy...")]
             public string Instagram { get; set; }
         }
 
@@ -97,18 +102,14 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
-            }
+            var model = new UpdateUserProfileContactInformationCommand(User.GetUserId(), Input.Telegram, Input.Instagram, Input.PhoneNumber); ;
+            await razorPagesRequestExceptionHandler.Execute(ModelState, model);
 
-            await mediator.Send(new UpdateUserProfileContactInformationCommand(User.GetUserId(), Input.Telegram, Input.Instagram, Input.PhoneNumber));
+            if (!ModelState.IsValid)
+            {
+                await LoadAsync();
+                return Page();
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

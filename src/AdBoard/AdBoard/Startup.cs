@@ -30,12 +30,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Reflection;
 using Application.UserProfiles.CreateUserProfile;
-using AdBoard.Helpers.Reflection;
 using Infrastucture.Processing;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Infrastucture.Mapping.UserProfiles;
+using AdBoard.ExceptionHandling;
 
 namespace AdBoard
 {
@@ -101,7 +101,13 @@ namespace AdBoard
 
             // asp.net core
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddMvcOptions(setupAction=> {
+                    setupAction.Filters.Add(new Filters.CustomExceptionFilter());
+                });
+
+            // commands & queries
+            services.AddSingleton<IRazorPagesRequestExceptionHandler, RazorPagesRequestExceptionHandler>();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
