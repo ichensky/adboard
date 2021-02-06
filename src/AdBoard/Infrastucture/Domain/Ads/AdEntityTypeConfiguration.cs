@@ -20,6 +20,10 @@ namespace Infrastucture.Domain.Ads
             {
                 y.Property(x => x!.Value).HasColumnName(nameof(Ad.Description));
             });
+            builder.OwnsOne(x => x.ShortDescription, y =>
+            {
+                y.Property(x => x!.Value).HasColumnName(nameof(Ad.ShortDescription));
+            });
             builder.OwnsOne(x => x.Keywords, y =>
             {
                 y.Property(x => x!.Value).HasColumnName(nameof(Ad.Keywords));

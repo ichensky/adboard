@@ -36,6 +36,11 @@ using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Infrastucture.Mapping.UserProfiles;
 using AdBoard.ExceptionHandling;
+using Microsoft.Extensions.Configuration.Json;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
+using Ac.GDrive.Configuration;
+using Ac.GDrive.Core;
 
 namespace AdBoard
 {
@@ -98,7 +103,6 @@ namespace AdBoard
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
-
             // asp.net core
             services.AddControllersWithViews();
             services.AddRazorPages()
@@ -108,6 +112,11 @@ namespace AdBoard
 
             // commands & queries
             services.AddSingleton<IRazorPagesRequestExceptionHandler, RazorPagesRequestExceptionHandler>();
+
+            //gdrive 
+            // tr -d '\n' < gdrive-key.json | sed 's/"/\\"/g'
+            services.Configure<GDriveKeys>(Configuration.GetSection("GDriveKeys"));
+            services.AddSingleton<IDriverServiceFactory, DriverServiceFactory>();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

@@ -3,20 +3,22 @@ using Domain.Core.BusinessRules;
 
 namespace Domain.Ads.Ad
 {
-    public class Description : SingleValueObject<string>
+    public class Description : SingleValueObject<string?>
     {
         private Description()
         {
             // For EF
         }
 
-        public Description(string description) : base(description) { }
+        public Description(string? description) : base(description) { }
 
-        protected override void CheckChangeRule(string description)
+        public static Description Null() => new Description();
+
+        protected override void CheckChangeRule(string? description)
         {
-            if (description.Length < 3)
+            if (string.IsNullOrEmpty(description))
             {
-                throw new BusinessRuleValidationException("Desctription should have at least 3 charters.");
+                return;
             }
             if (description.Length > 800)
             {
