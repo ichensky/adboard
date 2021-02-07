@@ -5,6 +5,7 @@ using Google.Apis.Services;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,17 +13,15 @@ namespace Ac.GDrive.Core
 {
     public class DriverServiceFactory : IDriverServiceFactory
     {
-        private IEnumerable<GoogleCredential> credentials;
-        private Queue<GoogleCredential> credentialsForFilesUpload;
+        private readonly IEnumerable<GoogleCredential> credentials;
 
-        static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+        public IEnumerable<GoogleCredential> Credentials { get => credentials; }
 
         public DriverServiceFactory(IOptions<GDriveKeys> keys) : this(keys.Value) { }
 
         public DriverServiceFactory(GDriveKeys keys)
         {
             this.credentials = ValidateKeys(keys);
-            this.credentialsForFilesUpload = new Queue<GoogleCredential>(this.credentials);
         }
 
         private IEnumerable<GoogleCredential> ValidateKeys(GDriveKeys keys)
@@ -36,45 +35,27 @@ namespace Ac.GDrive.Core
                 yield return GoogleCredential.FromJson(key).CreateScoped(DriveService.Scope.Drive);
             }
         }
-
-        public async Task<DriverServiceDecorator> CreateDriveForUploadingFile(int spaceMB = 500)
+    
+        public async Task<DriverServiceDecorator> CreateDriveServiceWithEnoughSpace(int fileSizeMB)
         {
-            //
-            // TODO: think about load balancing
-            //
-
-            await semaphore.WaitAsync();
-            try
+            if (fileSizeMB < 1)
             {
-                var service = await CreateDriveWithEnoughSpace(spaceMB);
-                return service;
+                throw new ArgumentException(nameof(fileSizeMB));
             }
-            finally
-            {
-                semaphore.Release();
-            }
-        }
 
-        private async Task<DriverServiceDecorator> CreateDriveWithEnoughSpace(int spaceMB)
-        {
             foreach (var credential in this.credentialsForFilesUpload)
             {
-                var service = CreateDrive(credential);
-                if (await service.IsEnoughSpaceForFileUpload(spaceMB))
+                var service = new DriverServiceDecorator(credential);
+
+                if (await service.IsEnoughSpaceForFileUpload(fileSizeMB))
                 {
                     return service;
                 }
+
                 this.credentialsForFilesUpload.Dequeue();
             }
 
             throw new Exception("All keys are used.");
-        }
-
-        private DriverServiceDecorator CreateDrive(GoogleCredential credential)
-        {
-            var driveService = new DriveService(new BaseClientService.Initializer() { HttpClientInitializer = credential });
-            var service = new DriverServiceDecorator(driveService);
-            return service;
         }
     }
 }

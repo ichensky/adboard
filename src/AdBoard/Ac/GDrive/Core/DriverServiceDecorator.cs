@@ -1,5 +1,7 @@
-﻿using Google.Apis.Drive.v3;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
 using Google.Apis.Drive.v3.Data;
+using Google.Apis.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,18 +10,13 @@ using System.Threading.Tasks;
 
 namespace Ac.GDrive.Core
 {
-    public class DriverServiceDecorator
+    public class DriverServiceDecorator : DriveService
     {
-        private readonly DriveService service;
-
-        public DriverServiceDecorator(DriveService service)
-        {
-            this.service = service;
-        }
+        public DriverServiceDecorator(GoogleCredential credential) : base(new Initializer() { HttpClientInitializer = credential }) { }
 
         public async Task DeleteFile(string id)
         {
-            var request = service.Files.Delete(id);
+            var request = Files.Delete(id);
             await request.ExecuteAsync();
         }
 
@@ -29,7 +26,7 @@ namespace Ac.GDrive.Core
             {
                 Name = name,
             };
-            var request = service.Files.Create(file, stream, "image/jpg");
+            var request = Files.Create(file, stream, "image/jpg");
             request.Fields = "id";
 
             await request.UploadAsync();
@@ -45,7 +42,7 @@ namespace Ac.GDrive.Core
 
         public async Task<long> AvailableSpaceGoogleDrive()
         {
-            var get = service.About.Get();
+            var get = About.Get();
             get.Fields = "storageQuota";
             var about = await get.ExecuteAsync();
             var sq = about.StorageQuota;
@@ -58,26 +55,26 @@ namespace Ac.GDrive.Core
 
         public async Task<bool> CheckIfFileUploadedToGoogle(string id)
         {
-            var listRequest = service.Files.List();
+            var listRequest = Files.List();
             listRequest.Q = $"appProperties has  {{ key = 'id' and value='{id}' }}";
             var files = await listRequest.ExecuteAsync();
 
             return files.Files.Count > 0;
         }
 
-        public async Task<bool> IsEnoughSpaceForFileUpload(int spaceMB)
+        public async Task<bool> IsEnoughSpaceForFileUpload(int fileSizeMB)
         {
-            if (spaceMB < 10)
+            if (fileSizeMB < 1)
             {
-                throw new ArgumentException("space value should be bigger then 10mb");
+                throw new ArgumentException("space value should be bigger then 1mb");
             }
             var space = await AvailableSpaceGoogleDrive();
-            return space > spaceMB * 1024 * 1024; //100mb
+            return space > (100 + fileSizeMB) * 1024 * 1024; // min 100mb
         }
 
         public async Task AddPermissionsAnyOneReader(string id)
         {
-            await service.Permissions.Create(new Permission()
+            await Permissions.Create(new Permission()
             {
                 Kind = "drive#permission",
                 Type = "anyone",
@@ -88,7 +85,7 @@ namespace Ac.GDrive.Core
         public async Task<IEnumerable<Google.Apis.Drive.v3.Data.File>> ListAllFiles()
         {
             var list = new List<Google.Apis.Drive.v3.Data.File>();
-            FilesResource.ListRequest listRequest = service.Files.List();
+            FilesResource.ListRequest listRequest = Files.List();
             listRequest.PageSize = 10;
             listRequest.Fields = "nextPageToken, files(id, name)";
 

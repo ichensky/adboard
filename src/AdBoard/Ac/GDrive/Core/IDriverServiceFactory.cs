@@ -4,6 +4,6 @@ namespace Ac.GDrive.Core
 {
     public interface IDriverServiceFactory
     {
-        Task<DriverServiceDecorator> CreateDriveForUploadingFile(int spaceMB = 500);
+        Task<DriverServiceDecorator> CreateDriveServiceWithEnoughSpace(int fileSizeMB);
     }
 }
