@@ -87,7 +87,6 @@ namespace AdBoard
                 };
             });
 
-
             // db
             var connectionString = Configuration.GetConnectionString("AdBoardContextConnection");
 
