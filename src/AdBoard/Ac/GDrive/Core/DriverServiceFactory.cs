@@ -43,7 +43,7 @@ namespace Ac.GDrive.Core
                 throw new ArgumentException(nameof(fileSizeMB));
             }
 
-            foreach (var credential in this.credentialsForFilesUpload)
+            foreach (var credential in this.credentials)
             {
                 var service = new DriverServiceDecorator(credential);
 
@@ -51,8 +51,6 @@ namespace Ac.GDrive.Core
                 {
                     return service;
                 }
-
-                this.credentialsForFilesUpload.Dequeue();
             }
 
             throw new Exception("All keys are used.");

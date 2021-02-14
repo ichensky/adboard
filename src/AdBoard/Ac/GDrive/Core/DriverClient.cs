@@ -1,4 +1,5 @@
 ﻿using Ac.GDrive.Configuration;
+using Domain.BusinessServices;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
@@ -13,15 +14,12 @@ namespace Ac.GDrive.Core
 {
     public class DriverClient : IDriverClient
     {
-        private Queue<GoogleCredential> credentialsForFilesUpload;
-
         static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
         private readonly DriverServiceFactory driverServiceFactory;
 
         public DriverClient(DriverServiceFactory driverServiceFactory)
         {
             this.driverServiceFactory = driverServiceFactory;
-            this.credentialsForFilesUpload = new Queue<GoogleCredential>(this.driverServiceFactory.Credentials);
         }
 
         public async Task<string> UploadImage(int fileSizeMB, Stream stream, string name)

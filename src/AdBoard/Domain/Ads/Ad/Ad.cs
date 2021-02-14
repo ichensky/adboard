@@ -11,14 +11,14 @@ namespace Domain.Ads.Ad
 {
     public class Ad : AggregateRoot
     {
-        private readonly UserProfile user;
+        private readonly TypedIdValueObject userProfilesId;
         private readonly Name name;
         private readonly Description description;
         private readonly YoutubeUrl youtubeUrl;
         private readonly Keywords keywords;
         private IEnumerable<Picture> pictures;
         private PublishInformation publish;
-        private Description shortDescription;
+        private ShortDescription shortDescription;
         private readonly DateTime creationDate;
         private readonly DateTime? deleteDate;
         private readonly DateTime updateDate;
@@ -29,9 +29,9 @@ namespace Domain.Ads.Ad
             // For EF
         }
 
-        private Ad(UserProfile user, Name name, Description shortDescription, Description description, Keywords keywords, YoutubeUrl youtubeUrl)
+        private Ad(TypedIdValueObject userProfilesId, Name name, ShortDescription shortDescription, Description description, Keywords keywords, YoutubeUrl youtubeUrl)
         {
-            this.user = user;
+            this.userProfilesId = userProfilesId;
             this.name = name;
             this.description = description;
             this.keywords = keywords;
@@ -43,9 +43,9 @@ namespace Domain.Ads.Ad
             this.youtubeUrl = youtubeUrl;
         }
 
-        public static Ad CreateAd(UserProfile user, Name name, Description shortDescription, Description description, Keywords keywords, YoutubeUrl youtubeUrl) {
+        public static Ad CreateAd(TypedIdValueObject userProfilesId, Name name, ShortDescription shortDescription, Description description, Keywords keywords, YoutubeUrl youtubeUrl) {
 
-            return new Ad(user,name,shortDescription,description,keywords,youtubeUrl);
+            return new Ad(userProfilesId, name,shortDescription,description,keywords,youtubeUrl);
         }
 
         public void AddPicture(Picture picture) {
@@ -79,13 +79,13 @@ namespace Domain.Ads.Ad
 
         public TypedIdValueObject Id => id;
 
-        public UserProfile User => user;
+        public TypedIdValueObject UserProfilesId => userProfilesId;
         
         public Name Name => name;
 
         public Description Description => description;
 
-        public Description ShortDescription => shortDescription;
+        public ShortDescription ShortDescription => shortDescription;
 
         public YoutubeUrl YoutubeUrl => youtubeUrl;
 
