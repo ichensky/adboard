@@ -26,9 +26,14 @@ namespace Infrastucture.Domain.UserProfiles
             return context.UserProfiles.Update(userProfile).Entity;
         }
 
-        public async Task AddAsync(UserProfile userProfile)
+        public async Task Add(UserProfile userProfile)
         {
             await context.UserProfiles.AddAsync(userProfile);
+        }
+
+        public Task DeleteAsync(TypedIdValueObject id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

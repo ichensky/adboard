@@ -1,4 +1,4 @@
-﻿namespace Domain.Ads.Ad
+﻿namespace Domain.Ads
 {
     public enum PublishStatus
     {

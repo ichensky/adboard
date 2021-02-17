@@ -1,13 +1,11 @@
-﻿using Domain.Ads.Ad.Pictures;
-using Domain.Core;
+﻿using Domain.Core;
 using Domain.Core.BusinessRules;
-using Domain.UserProfiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Picture = Domain.Ads.Ad.Pictures.Picture;
+using Picture = Domain.Ads.Pictures.Picture;
 
-namespace Domain.Ads.Ad
+namespace Domain.Ads
 {
     public class Ad : AggregateRoot
     {
@@ -43,12 +41,14 @@ namespace Domain.Ads.Ad
             this.youtubeUrl = youtubeUrl;
         }
 
-        public static Ad CreateAd(TypedIdValueObject userProfilesId, Name name, ShortDescription shortDescription, Description description, Keywords keywords, YoutubeUrl youtubeUrl) {
+        public static Ad CreateAd(TypedIdValueObject userProfilesId, Name name, ShortDescription shortDescription, Description description, Keywords keywords, YoutubeUrl youtubeUrl)
+        {
 
-            return new Ad(userProfilesId, name,shortDescription,description,keywords,youtubeUrl);
+            return new Ad(userProfilesId, name, shortDescription, description, keywords, youtubeUrl);
         }
 
-        public void AddPicture(Picture picture) {
+        public void AddPicture(Picture picture)
+        {
             var pictures = this.pictures as IList<Picture> ?? this.pictures.ToList();
             pictures.Add(picture);
             if (pictures.Count > 5)
@@ -65,7 +65,8 @@ namespace Domain.Ads.Ad
             this.pictures = pictures;
         }
 
-        public void PublishAd() {
+        public void PublishAd()
+        {
             if (!pictures.Any())
             {
                 throw new BusinessRuleValidationException("Ad should have at least on picture");
@@ -80,7 +81,7 @@ namespace Domain.Ads.Ad
         public TypedIdValueObject Id => id;
 
         public TypedIdValueObject UserProfilesId => userProfilesId;
-        
+
         public Name Name => name;
 
         public Description Description => description;
@@ -92,7 +93,7 @@ namespace Domain.Ads.Ad
         public IEnumerable<Picture> Pictures => pictures;
 
         public PublishInformation Publish => publish;
-        
+
         public Keywords Keywords => keywords;
 
         public DateTime CreationDate => creationDate;

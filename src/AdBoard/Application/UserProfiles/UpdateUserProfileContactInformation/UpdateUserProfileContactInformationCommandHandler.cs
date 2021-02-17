@@ -14,12 +14,12 @@ namespace Application.UserProfiles.UpdateUserProfileContactInformation
 {
     public class UpdateUserProfileContactInformationCommandHandler : ICommandHandler<UpdateUserProfileContactInformationCommand, UserProfileDto>
     {
-        private readonly IUserProfileRepository userProfileRepository;
+        private readonly IAdRepository userProfileRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public UpdateUserProfileContactInformationCommandHandler(
-            IUserProfileRepository userProfileRepository,
+            IAdRepository userProfileRepository,
             IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.userProfileRepository = userProfileRepository;

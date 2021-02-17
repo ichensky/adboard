@@ -1,10 +1,8 @@
-﻿using Domain.Ads.Ad;
+﻿using Domain.Ads;
 using Domain.UserProfiles;
-using Infrastucture.Core;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Picture = Domain.Ads.Ad.Pictures.Picture;
+using Picture = Domain.Ads.Pictures;
 
 namespace Infrastucture.Database
 {

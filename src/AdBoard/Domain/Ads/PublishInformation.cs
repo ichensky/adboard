@@ -1,7 +1,7 @@
 ﻿using Domain.Core;
 using System;
 
-namespace Domain.Ads.Ad
+namespace Domain.Ads
 {
     public class PublishInformation : ValueObject
     {

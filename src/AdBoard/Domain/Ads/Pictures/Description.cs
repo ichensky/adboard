@@ -1,7 +1,7 @@
 ﻿using Domain.Core;
 using Domain.Core.BusinessRules;
 
-namespace Domain.Ads.Ad.Pictures
+namespace Domain.Ads.Pictures
 {
     public class Description : SingleValueObject<string>
     {

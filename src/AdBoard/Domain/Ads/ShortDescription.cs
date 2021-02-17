@@ -1,7 +1,7 @@
 ﻿using Domain.Core;
 using Domain.Core.BusinessRules;
 
-namespace Domain.Ads.Ad
+namespace Domain.Ads
 {
     public class ShortDescription : SingleValueObject<string>
     {

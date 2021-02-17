@@ -13,12 +13,12 @@ namespace Application.UserProfiles.CreateUserProfile
 {
     public class CreateUserProfileCommandHandler : ICommandHandler<CreateUserProfileCommand, UserProfileDto>
     {
-        private readonly IUserProfileRepository userProfileRepository;
+        private readonly IAdRepository userProfileRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public CreateUserProfileCommandHandler(
-            IUserProfileRepository userProfileRepository,
+            IAdRepository userProfileRepository,
             IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.userProfileRepository = userProfileRepository;

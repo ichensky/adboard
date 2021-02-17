@@ -1,7 +1,7 @@
 ﻿using Domain.Core;
 using System;
 
-namespace Domain.Ads.Ad.Pictures
+namespace Domain.Ads.Pictures
 {
     public class Picture : Entity
     {

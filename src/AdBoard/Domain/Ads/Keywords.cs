@@ -2,7 +2,7 @@
 using Domain.Core.BusinessRules;
 using System.Linq;
 
-namespace Domain.Ads.Ad
+namespace Domain.Ads
 {
     public class Keywords : SingleValueObject<string?>
     {

@@ -42,6 +42,7 @@ using System.IO;
 using Ac.GDrive.Configuration;
 using Ac.GDrive.Core;
 using Domain.BusinessServices;
+using Infrastucture.Domain.Ads;
 
 namespace AdBoard
 {
@@ -101,7 +102,7 @@ namespace AdBoard
             services.AddSingleton<ISqlConnectionFactory>(new SqlConnectionFactory(connectionString));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+            services.AddScoped<IAdRepository, UserProfileRepository>();
 
             // asp.net core
             services.AddControllersWithViews();

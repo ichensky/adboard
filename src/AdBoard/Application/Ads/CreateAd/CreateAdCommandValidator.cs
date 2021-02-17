@@ -12,9 +12,11 @@ namespace Application.Ads.CreateAd
         public CreateAdCommandValidator()
         {
             RuleFor(x => x.UsersProfileId).NotEmpty();
-            RuleFor(x => x.Picture).NotEmpty().MaximumLength(1024);
-            RuleFor(x => x.).NotEmpty().MaximumLength(30);
-            RuleFor(x => x.LastName).NotEmpty().MaximumLength(30);
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
+            RuleFor(x => x.ShortDescription).NotEmpty().MaximumLength(160);
+            RuleFor(x => x.Description).MaximumLength(800);
+            RuleFor(x => x.YoutubeUrl).MaximumLength(1024);
+            RuleFor(x => x.Keywords).MaximumLength(120);
         }
     }
 }
