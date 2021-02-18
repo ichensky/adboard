@@ -6,6 +6,11 @@ namespace Domain.Core
 {
     public class TypedIdValueObject : SingleValueObject<Guid>
     {
+        protected TypedIdValueObject()
+        {
+            // For EF
+        }
+
         public TypedIdValueObject(Guid id) : base(id) { }
 
         protected override void CheckChangeRule(Guid value)

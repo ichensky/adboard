@@ -13,12 +13,12 @@ namespace Application.UserProfiles.CreateUserProfile
 {
     public class CreateUserProfileCommandHandler : ICommandHandler<CreateUserProfileCommand, UserProfileDto>
     {
-        private readonly IAdRepository userProfileRepository;
+        private readonly IUserProfileRepository userProfileRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
         public CreateUserProfileCommandHandler(
-            IAdRepository userProfileRepository,
+            IUserProfileRepository userProfileRepository,
             IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.userProfileRepository = userProfileRepository;
@@ -31,7 +31,7 @@ namespace Application.UserProfiles.CreateUserProfile
             var userProfile  = UserProfile.CreateUserProfile(new TypedIdValueObject(request.AspNetUsersId), 
                 new Name(request.FirstName, request.LastName), new Picture(request.Picture));
 
-            await userProfileRepository.AddAsync(userProfile);
+            userProfileRepository.Add(userProfile);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

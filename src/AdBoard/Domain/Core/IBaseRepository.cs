@@ -8,7 +8,7 @@ namespace Domain.Core
 {
     public interface IBaseRepository<T>
     {
-        public T AddAsync(T model);
+        public T Add(T model);
 
         public Task<T> GetAsync(TypedIdValueObject id);
 

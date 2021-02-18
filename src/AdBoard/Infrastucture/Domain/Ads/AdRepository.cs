@@ -17,7 +17,7 @@ namespace Infrastucture.Domain.Ads
             this.context = context;
         }
      
-        public Ad AddAsync(Ad model)
+        public Ad Add(Ad model)
         {
             return context.Ads.Add(model).Entity;
         }

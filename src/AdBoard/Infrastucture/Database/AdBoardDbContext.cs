@@ -2,7 +2,7 @@
 using Domain.UserProfiles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Picture = Domain.Ads.Pictures;
+using Pictures = Domain.Ads.Pictures;
 
 namespace Infrastucture.Database
 {
@@ -12,7 +12,7 @@ namespace Infrastucture.Database
 
         public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
 
-        public DbSet<Picture> Pictures => Set<Picture>();
+        public DbSet<Pictures.Picture> Pictures => Set<Pictures.Picture>();
 
         public AdBoardDbContext(DbContextOptions<AdBoardDbContext> options) : base(options) { }
 
@@ -21,7 +21,6 @@ namespace Infrastucture.Database
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdBoardDbContext).Assembly);
-
         }
     }
 }

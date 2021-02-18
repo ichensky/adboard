@@ -1,5 +1,5 @@
-﻿using Domain.Ads.Ad;
-using Domain.Ads.Ad.Pictures;
+﻿using Domain.Ads;
+using Domain.Ads.Pictures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
