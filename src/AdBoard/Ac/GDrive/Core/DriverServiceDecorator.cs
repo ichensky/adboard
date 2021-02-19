@@ -19,11 +19,11 @@ namespace Ac.GDrive.Core
     {
         private readonly AsyncRetryPolicy policy;
 
-        public DriverServiceDecorator(GoogleCredential credential, IOptions<DriveClientOptions> options)
+        public DriverServiceDecorator(GoogleCredential credential, DriveClientOptions options)
             : base(new Initializer() { HttpClientInitializer = credential })
         {
-            this.policy = Policy.Handle<Exception>().WaitAndRetryAsync(options.Value.RetryCount, 
-                sleepDurationProvider => TimeSpan.FromSeconds(options.Value.RetryDelayInSeconds));
+            this.policy = Policy.Handle<Exception>().WaitAndRetryAsync(options.RetryCount, 
+                sleepDurationProvider => TimeSpan.FromSeconds(options.RetryDelayInSeconds));
         }
           
         public async Task DeleteFile(string id)

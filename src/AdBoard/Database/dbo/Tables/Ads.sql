@@ -3,7 +3,7 @@
     [UserProfilesId]   UNIQUEIDENTIFIER NOT NULL,
     [Name]             NVARCHAR (100)   NOT NULL,
     [ShortDescription] NVARCHAR (160)   NOT NULL,
-    [Description]      NVARCHAR (800)   NULL,
+    [Description]      NVARCHAR (1024)   NULL,
     [YoutubeUrl]       NVARCHAR (1024)  NULL,
     [Keywords]         NVARCHAR (120)   NULL,
     [CreationDate]     DATETIME2 (7)    NOT NULL,

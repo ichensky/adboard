@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ac.GDrive.Configuration
 {
-    public class GDriveKeys : List<string>
+    public class GDriveKeysOptions : List<string>
     {
     }
 }

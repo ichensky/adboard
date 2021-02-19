@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAnnotationsExtensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,10 @@ namespace Ac.GDrive.Configuration
 {
     public class DriveClientOptions
     {
+        [Min(1)]
         public int RetryCount { get; set; }
 
+        [Min(1)]
         public int RetryDelayInSeconds { get; set; }
     }
 }

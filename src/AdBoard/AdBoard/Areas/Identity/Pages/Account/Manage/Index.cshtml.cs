@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Ac.GDrive.Configuration;
 using AdBoard.ExceptionHandling;
 using AdBoard.Helpers.AspNetClaims;
 using Application.UserProfiles.GetUserProfile;
@@ -12,6 +13,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 
 namespace AdBoard.Areas.Identity.Pages.Account.Manage
 {

@@ -20,7 +20,7 @@ namespace Domain.Ads
             {
                 return;
             }
-            if (description.Length > 800)
+            if (description.Length > 1024)
             {
                 throw new BusinessRuleValidationException("Desctription should have maximum 800 charters.");
             }

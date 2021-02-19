@@ -14,17 +14,20 @@ namespace Ac.GDrive.Core
     public class DriverServiceFactory : IDriverServiceFactory
     {
         private readonly IEnumerable<GoogleCredential> credentials;
+        private readonly DriveClientOptions driveClientOptions;
 
         public IEnumerable<GoogleCredential> Credentials { get => credentials; }
 
-        public DriverServiceFactory(IOptions<GDriveKeys> keys) : this(keys.Value) { }
+        public DriverServiceFactory(IOptions<GDriveKeysOptions> keys, IOptions<DriveClientOptions> driveClientOptions)
+            : this(keys.Value, driveClientOptions.Value) { }
 
-        public DriverServiceFactory(GDriveKeys keys)
+        private DriverServiceFactory(GDriveKeysOptions keys, DriveClientOptions driveClientOptions)
         {
             this.credentials = ValidateKeys(keys);
+            this.driveClientOptions = driveClientOptions;
         }
 
-        private IEnumerable<GoogleCredential> ValidateKeys(GDriveKeys keys)
+        private IEnumerable<GoogleCredential> ValidateKeys(GDriveKeysOptions keys)
         {
             if (keys.Count == 0)
             {
@@ -45,7 +48,7 @@ namespace Ac.GDrive.Core
 
             foreach (var credential in this.credentials)
             {
-                var service = new DriverServiceDecorator(credential);
+                var service = new DriverServiceDecorator(credential, driveClientOptions);
 
                 if (await service.IsEnoughSpaceForFileUpload(fileSizeMB))
                 {

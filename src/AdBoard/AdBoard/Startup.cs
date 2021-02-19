@@ -118,8 +118,8 @@ namespace AdBoard
 
             //gdrive 
             // tr -d '\n' < gdrive-key.json | sed 's/"/\\"/g'
-            services.Configure<DriveClientOptions>(Configuration.GetSection("DriveClient"));
-            services.Configure<GDriveKeys>(Configuration.GetSection("GDriveKeys"));
+            services.AddOptions<DriveClientOptions>().Bind(Configuration.GetSection("DriveClient")).ValidateDataAnnotations();
+            services.Configure<GDriveKeysOptions>(Configuration.GetSection("GDriveKeys"));
             services.AddSingleton<IDriverServiceFactory, DriverServiceFactory>();
             services.AddSingleton<IDriverClient, DriverClient>();
         }
