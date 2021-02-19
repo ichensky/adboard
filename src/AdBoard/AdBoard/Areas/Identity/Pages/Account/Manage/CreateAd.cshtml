@@ -2,7 +2,7 @@
 @model AdBoard.Areas.Identity.Pages.Account.Manage.CreateAdModel
 @{
     ViewData["Title"] = "Create ad";
-    ViewData["ActivePage"] = ManageNavPages.AddAd;
+    ViewData["ActivePage"] = ManageNavPages.CreateAd;
 }
 
 <partial name="_StatusMessage" model="Model.StatusMessage" />
@@ -17,12 +17,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.ShortDescription"></label>
-                <input asp-for="Input.ShortDescription" class="form-control" />
+                <textarea asp-for="Input.ShortDescription" class="form-control" ></textarea>
                 <span asp-validation-for="Input.ShortDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Description"></label>
-                <input asp-for="Input.Description" class="form-control" />
+                <textarea asp-for="Input.Description" class="form-control" ></textarea>
                 <span asp-validation-for="Input.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +35,7 @@
                 <input asp-for="Input.YoutubeUrl" class="form-control" />
                 <span asp-validation-for="Input.YoutubeUrl" class="text-danger"></span>
             </div>
-            <button id="update-ad-button" type="submit" class="btn btn-primary">Ad</button>
+            <button id="update-ad-button" type="submit" class="btn btn-primary">Add</button>
         </form>
     </div>
 </div>

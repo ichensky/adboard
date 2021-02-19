@@ -47,7 +47,7 @@ namespace Infrastucture.Domain.Ads
             {
                 y.Property(x => x.PublishDate).HasColumnName(nameof(Ad.Publish.PublishDate));
                 y.Property(x => x.RejectionCount).HasColumnName(nameof(Ad.Publish.RejectionCount));
-                y.Property(x => x.Status).HasColumnName(nameof(Ad.Publish.Status));
+                y.Property(x => x.PublishStatus).HasColumnName(nameof(Ad.Publish.PublishStatus));
             });
 
             builder.OwnsMany(x => x.Pictures, y =>

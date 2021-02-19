@@ -27,7 +27,7 @@ namespace Application.Ads.CreateAd
         {
             var ad = Ad.CreateAd(new TypedIdValueObject(request.UsersProfileId), new Name(request.Name),
                 new ShortDescription(request.ShortDescription), new Description(request.Description),
-                new Keywords(request.Keywords), new YoutubeUrl(request.Name));
+                new Keywords(request.Keywords), new YoutubeUrl(request.YoutubeUrl));
 
             adRepository.Add(ad);
 
