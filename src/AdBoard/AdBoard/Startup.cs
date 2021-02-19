@@ -59,6 +59,7 @@ namespace AdBoard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // mapper
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingUserProfile());
@@ -109,9 +110,7 @@ namespace AdBoard
             // asp.net core
             services.AddControllersWithViews();
             services.AddRazorPages()
-                .AddMvcOptions(setupAction=> {
-                    setupAction.Filters.Add(new Filters.CustomExceptionFilter());
-                });
+                .AddMvcOptions(setupAction=> { });
 
             // commands & queries
             services.AddSingleton<IRazorPagesRequestExceptionHandler, RazorPagesRequestExceptionHandler>();

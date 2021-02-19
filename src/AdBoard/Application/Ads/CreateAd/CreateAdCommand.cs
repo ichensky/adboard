@@ -10,9 +10,9 @@ namespace Application.Ads.CreateAd
 {
     public class CreateAdCommand : CommandBase<AdDto>
     {
-        public CreateAdCommand(Guid aspNetUsersId, string name, string? description, string shortDescription, string? keywords, string? youtubeUrl)
+        public CreateAdCommand(Guid userProfileId, string name, string? description, string shortDescription, string? keywords, string? youtubeUrl)
         {
-            UsersProfileId = aspNetUsersId;
+            UsersProfileId = userProfileId;
             Name = name;
             Description = description;
             ShortDescription = shortDescription;

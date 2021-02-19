@@ -106,6 +106,7 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
 
             var model = new UpdateUserProfileContactInformationCommand(User.GetUserId(), 
                 Input.Telegram?.Trim(), Input.Instagram?.Trim(), Input.PhoneNumber?.Trim());
+
             await razorPagesRequestExceptionHandler.Execute(ModelState, model);
 
             if (!ModelState.IsValid)
