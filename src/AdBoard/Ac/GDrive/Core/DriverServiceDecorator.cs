@@ -1,7 +1,12 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿using Ac.GDrive.Configuration;
+using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Drive.v3.Data;
+using Google.Apis.Http;
 using Google.Apis.Services;
+using Microsoft.Extensions.Options;
+using Polly;
+using Polly.Retry;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,12 +17,19 @@ namespace Ac.GDrive.Core
 {
     public class DriverServiceDecorator : DriveService
     {
-        public DriverServiceDecorator(GoogleCredential credential) : base(new Initializer() { HttpClientInitializer = credential }) { }
+        private readonly AsyncRetryPolicy policy;
 
+        public DriverServiceDecorator(GoogleCredential credential, IOptions<DriveClientOptions> options)
+            : base(new Initializer() { HttpClientInitializer = credential })
+        {
+            this.policy = Policy.Handle<Exception>().WaitAndRetryAsync(options.Value.RetryCount, 
+                sleepDurationProvider => TimeSpan.FromSeconds(options.Value.RetryDelayInSeconds));
+        }
+          
         public async Task DeleteFile(string id)
         {
             var request = Files.Delete(id);
-            await request.ExecuteAsync();
+            await policy.ExecuteAsync(()=> request.ExecuteAsync());
         }
 
         public async Task<string> UploadImage(Stream stream, string name)
@@ -29,7 +41,7 @@ namespace Ac.GDrive.Core
             var request = Files.Create(file, stream, "image/jpg");
             request.Fields = "id";
 
-            await request.UploadAsync();
+            await policy.ExecuteAsync(()=> request.UploadAsync());
 
             var id = request.ResponseBody.Id;
 
@@ -44,7 +56,7 @@ namespace Ac.GDrive.Core
         {
             var get = About.Get();
             get.Fields = "storageQuota";
-            var about = await get.ExecuteAsync();
+            var about = await policy.ExecuteAsync(()=> get.ExecuteAsync());
             var sq = about.StorageQuota;
             if (sq.Limit == null || sq.Usage == null)
             {
@@ -57,7 +69,7 @@ namespace Ac.GDrive.Core
         {
             var listRequest = Files.List();
             listRequest.Q = $"appProperties has  {{ key = 'id' and value='{id}' }}";
-            var files = await listRequest.ExecuteAsync();
+            var files = await policy.ExecuteAsync(()=> listRequest.ExecuteAsync());
 
             return files.Files.Count > 0;
         }
@@ -93,7 +105,7 @@ namespace Ac.GDrive.Core
 
             do
             {
-                fileList = await listRequest.ExecuteAsync();
+                fileList = await policy.ExecuteAsync(()=> listRequest.ExecuteAsync());
                 list.AddRange(fileList.Files);
                 listRequest.PageToken = fileList.NextPageToken;
             } while (!string.IsNullOrEmpty(fileList.NextPageToken));
