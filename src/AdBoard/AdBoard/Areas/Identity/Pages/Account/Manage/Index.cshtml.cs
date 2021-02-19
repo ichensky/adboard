@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Ac.GDrive.Configuration;
 using AdBoard.ExceptionHandling;
 using AdBoard.Helpers.AspNetClaims;
-using Application.UserProfiles.GetUserProfile;
+using Application.UserProfiles;
+using Application.UserProfiles.TryGetUserProfile;
 using Application.UserProfiles.UpdateUserProfileContactInformation;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -62,10 +63,8 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
             public string Instagram { get; set; }
         }
 
-        private async Task LoadAsync()
+        private void Load(UserProfileDto userProfile)
         {
-            var userProfile = await mediator.Send(new GetUserProfileQuery(User.GetUserId()));
-
             FirstName = userProfile.FirstName;
             LastName = userProfile.LastName;
             Picture = userProfile.Picture;
@@ -80,27 +79,35 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var userId = User.GetUserId();
+            var userProfile = await mediator.Send(new TryGetUserProfileQuery(userId));
+            if (userProfile == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user profile with ID '{userId}'.");
             }
 
-            await LoadAsync();
+            Load(userProfile);
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            var userId = User.GetUserId();
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{userId}'.");
+            }
+
+            var userProfile = await mediator.Send(new TryGetUserProfileQuery(userId));
+            if (userProfile == null)
+            {
+                return NotFound($"Unable to load user profile with ID '{userId}'.");
             }
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync();
+                Load(userProfile);
                 return Page();
             }
 
@@ -111,7 +118,7 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync();
+                Load(userProfile);
                 return Page();
             }
 

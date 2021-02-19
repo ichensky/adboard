@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.UserProfiles.GetUserProfile
+namespace Application.UserProfiles.TryGetUserProfile
 {
-    public class GetUserProfileQuery : IQuery<UserProfileDto>
+    public class TryGetUserProfileQuery : IQuery<UserProfileDto?>
     {
-        public GetUserProfileQuery(Guid userId)
+        public TryGetUserProfileQuery(Guid userId)
         {
             UserId = userId;
         }

@@ -8,18 +8,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.UserProfiles.GetUserProfile
+namespace Application.UserProfiles.TryGetUserProfile
 {
-    public class GetUserProfileQueryHandler : IQueryHandler<GetUserProfileQuery, UserProfileDto>
+    public class TryGetUserProfileQueryHandler : IQueryHandler<TryGetUserProfileQuery, UserProfileDto?>
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-        public GetUserProfileQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
+        public TryGetUserProfileQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public Task<UserProfileDto> Handle(GetUserProfileQuery request, CancellationToken cancellationToken)
+        public async Task<UserProfileDto?> Handle(TryGetUserProfileQuery request, CancellationToken cancellationToken)
         {
             const string sql = "SELECT " +
                               "[Id], " +
@@ -34,7 +34,7 @@ namespace Application.UserProfiles.GetUserProfile
 
             var connection = _sqlConnectionFactory.GetOpenConnection();
 
-            return connection.QuerySingleAsync<UserProfileDto>(sql, new
+            return await connection.QuerySingleOrDefaultAsync<UserProfileDto>(sql, new
             {
                 request.UserId
             });
