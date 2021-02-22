@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace AdBoard.Areas.Identity.Pages.Account.Manage
+namespace AdBoard.Areas.Identity.Pages.Account.Manage.Ads
 {
-    public class CreateAdModel : PageModel
+    public class CreateModel : PageModel
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly IRazorPagesRequestExceptionHandler razorPagesRequestExceptionHandler;
@@ -48,7 +48,7 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage
             public string YoutubeUrl { get; set; }
         }
 
-        public CreateAdModel(UserManager<IdentityUser> userManager, IRazorPagesRequestExceptionHandler razorPagesRequestExceptionHandler)
+        public CreateModel(UserManager<IdentityUser> userManager, IRazorPagesRequestExceptionHandler razorPagesRequestExceptionHandler)
         {
             this.userManager = userManager;
             this.razorPagesRequestExceptionHandler = razorPagesRequestExceptionHandler;

@@ -44,6 +44,7 @@ using Ac.GDrive.Core;
 using Domain.BusinessServices;
 using Infrastucture.Domain.Ads;
 using Domain.Ads;
+using Infrastucture.Mapping.Ads;
 
 namespace AdBoard
 {
@@ -63,6 +64,7 @@ namespace AdBoard
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingUserProfile());
+                mc.AddProfile(new MappingAd());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();

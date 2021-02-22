@@ -1,8 +1,8 @@
 ﻿@page
-@model AdBoard.Areas.Identity.Pages.Account.Manage.CreateAdModel
+@model AdBoard.Areas.Identity.Pages.Account.Manage.Ads.CreateModel
 @{
     ViewData["Title"] = "Create ad";
-    ViewData["ActivePage"] = ManageNavPages.CreateAd;
+    ViewData["ActivePage"] = AdBoard.Areas.Identity.Pages.Account.Manage.ManageNavPages.MyAdsCreate;
 }
 
 <partial name="_StatusMessage" model="Model.StatusMessage" />
@@ -17,18 +17,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.ShortDescription"></label>
-                <textarea asp-for="Input.ShortDescription" class="form-control" ></textarea>
+                <textarea rows="5" asp-for="Input.ShortDescription" class="form-control" ></textarea>
                 <span asp-validation-for="Input.ShortDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Description"></label>
-                <textarea asp-for="Input.Description" class="form-control" ></textarea>
-                <span asp-validation-for="Input.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Keywords"></label>
                 <input asp-for="Input.Keywords" class="form-control" />
                 <span asp-validation-for="Input.Keywords" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Description"></label>
+                <textarea rows="8" asp-for="Input.Description" class="form-control" ></textarea>
+                <span asp-validation-for="Input.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.YoutubeUrl"></label>

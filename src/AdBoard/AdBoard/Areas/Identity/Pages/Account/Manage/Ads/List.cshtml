@@ -1,0 +1,28 @@
+﻿@page
+@model AdBoard.Areas.Identity.Pages.Account.Manage.Ads.ListModel
+@{
+    ViewData["Title"] = "My ads";
+    ViewData["ActivePage"] = AdBoard.Areas.Identity.Pages.Account.Manage.ManageNavPages.MyAdsList;
+    var root = "/Account/Manage";
+}
+@if (Model.MyAds.Any())
+{
+    <ul class="list-group">
+        @foreach (var myAdd in Model.MyAds)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
+                    <div>@myAdd.Name</div>
+                    <div><small>@myAdd.PublishStatus.ToString()</small></div>
+                </div>
+                <a class="nav-link btn btn-outline-primary" asp-page="/Account/Manage/Ads/View" asp-route-id="@myAdd.Id">view ></a>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p class="lead"> You does not have any ad.</p>
+    <a class="btn btn-primary" asp-page="./CreateAd">Create ad <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+}
+

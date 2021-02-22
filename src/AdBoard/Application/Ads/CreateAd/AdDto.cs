@@ -18,8 +18,6 @@ namespace Application.Ads.CreateAd
 
         public string Keywords { get; set; }
 
-        public string Picture { get; set; }
-
         public string YoutubeUrl { get; set; }
     }
 }

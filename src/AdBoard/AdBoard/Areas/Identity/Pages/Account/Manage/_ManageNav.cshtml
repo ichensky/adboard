@@ -1,8 +1,9 @@
 ﻿@inject SignInManager<IdentityUser> SignInManager
 @{
+    var root = "/Account/Manage";
 }
 <ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.AdsNavClass(ViewContext)" id="ads" asp-page="./Ads">My Ads</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.CreateAdNavClass(ViewContext)" id="ads" asp-page="./CreateAd">Add ad</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="@root/Index">Profile</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.MyAdsListNavClass(ViewContext)" id="myads_list" asp-page="@root/Ads/List">My Ads</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.CreateAdNavClass(ViewContext)" id="myads_create" asp-page="@root/Ads/Create">Create ad</a></li>
 </ul>
