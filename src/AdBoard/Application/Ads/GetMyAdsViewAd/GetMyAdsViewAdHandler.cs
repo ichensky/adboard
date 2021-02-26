@@ -9,18 +9,18 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Ads.ListMyAds
+namespace Application.Ads.GetMyAdsViewAd
 {
-    public class ListMyAdsQueryHandler : IQueryHandler<ListMyAdsQuery, IEnumerable<MyAdDto>>
+    public class GetMyAdsViewAdHandler : IQueryHandler<GetMyAdsViewAdQuery, GetMyAdsViewAdDto?>
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-        public ListMyAdsQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
+        public GetMyAdsViewAdHandler(ISqlConnectionFactory sqlConnectionFactory)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public Task<IEnumerable<MyAdDto>> Handle(ListMyAdsQuery request, CancellationToken cancellationToken)
+        public Task<GetMyAdsViewAdDto?> Handle(GetMyAdsViewAdQuery request, CancellationToken cancellationToken)
         {
             const string sql = "SELECT " +
                               "[Id], " +
@@ -28,14 +28,16 @@ namespace Application.Ads.ListMyAds
                               "[PublishDate], " +
                               "[PublishStatus] " +
                               "FROM [dbo].[Ads] " +
-                              "WHERE [UserProfilesId] = @userId " +
-                              "AND [DeleteDate] IS NULL ";
+                              "WHERE [Id] = @id " +
+                              "AND [UserProfilesId] = @userId " +
+                              "AND [DeleteDate] is NULL ";
 
             var connection = _sqlConnectionFactory.GetOpenConnection();
 
-            return connection.QueryAsync<MyAdDto>(sql, new
+            return connection.QuerySingleOrDefaultAsync<GetMyAdsViewAdDto?>(sql, new
             {
-                userId = request.UserId
+                id = request.Id,
+                userId= request.UserId
             });
         }
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Ads.GetAd
+namespace Application.Ads.GetMyAdsViewAd
 {
-    public class GetAdPictureDto
+    public class GetMyAdsViewAdPictureDto
     {
         public Guid Id { get; set; }
 

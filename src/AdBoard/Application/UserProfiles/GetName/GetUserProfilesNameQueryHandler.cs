@@ -27,13 +27,13 @@ namespace Application.UserProfiles.GetName
                               "[FirstName], " +
                               "[LastName] " +
                               "FROM dbo.UserProfiles " +
-                              "WHERE [Id] = @UserId ";
+                              "WHERE [Id] = @userId ";
 
             var connection = _sqlConnectionFactory.GetOpenConnection();
 
             return connection.QuerySingleAsync<UserProfilesNameDto>(sql, new
             {
-                request.UserId
+                userId = request.UserId
             });
         }
     }

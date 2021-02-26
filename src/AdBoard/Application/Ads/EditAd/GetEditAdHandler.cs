@@ -9,33 +9,39 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Ads.GetAd
+namespace Application.Ads.EditAd
 {
-    public class GetAdQueryHandler : IQueryHandler<GetAdQuery, GetAdDto?>
+    public class GetEditAdHandler : IQueryHandler<GetEditAdQuery, EditAdDto?>
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-        public GetAdQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
+        public GetEditAdHandler(ISqlConnectionFactory sqlConnectionFactory)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        public Task<GetAdDto?> Handle(GetAdQuery request, CancellationToken cancellationToken)
+        public Task<EditAdDto?> Handle(GetEditAdQuery request, CancellationToken cancellationToken)
         {
             const string sql = "SELECT " +
                               "[Id], " +
                               "[Name], " +
+                              "[Description], " +
+                              "[ShortDescription], " +
+                              "[Keywords], " +
+                              "[YoutubeUrl], " +
                               "[PublishDate], " +
                               "[PublishStatus] " +
                               "FROM [dbo].[Ads] " +
-                              "WHERE [Id] = @Id " +
-                              "and [DeleteDate] is NULL ";
+                              "WHERE [Id] = @id " +
+                              "AND [UserProfilesId] = @userId " +
+                              "AND [DeleteDate] is NULL ";
 
             var connection = _sqlConnectionFactory.GetOpenConnection();
 
-            return connection.QuerySingleOrDefaultAsync<GetAdDto?>(sql, new
+            return connection.QuerySingleOrDefaultAsync<EditAdDto?>(sql, new
             {
-                request.Id,
+                id = request.Id,
+                userId= request.UserId
             });
         }
     }

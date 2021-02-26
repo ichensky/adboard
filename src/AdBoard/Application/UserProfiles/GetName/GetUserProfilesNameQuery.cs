@@ -11,7 +11,6 @@ namespace Application.UserProfiles.GetName
             UserId = userId;
         }
 
-
         public Guid UserId { get; }
     }
 }

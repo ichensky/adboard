@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Domain.Ads;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Ads.CreateAd
+namespace Application.Ads.EditAd
 {
-    public class AdDto
+    public class EditAdDto
     {
         public Guid Id { get; set; }
 
@@ -21,5 +22,9 @@ namespace Application.Ads.CreateAd
         public string Keywords { get; set; }
 
         public string YoutubeUrl { get; set; }
+
+        public DateTime PublishDate { get; set; }
+
+        public PublishStatus PublishStatus { get; set; }
     }
 }

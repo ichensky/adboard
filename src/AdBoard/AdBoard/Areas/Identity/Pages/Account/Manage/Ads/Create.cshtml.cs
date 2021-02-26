@@ -54,9 +54,7 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage.Ads
             this.razorPagesRequestExceptionHandler = razorPagesRequestExceptionHandler;
         }
 
-        public void OnGet()
-        {
-        }
+        public void OnGet() { }
 
         public async Task<IActionResult> OnPostAsync()
         {

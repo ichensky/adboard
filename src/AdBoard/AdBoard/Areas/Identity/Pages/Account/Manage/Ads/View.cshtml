@@ -4,12 +4,10 @@
     ViewData["Title"] = Model.Ad.Name;
 }
 
-@if (Model.CanEdit)
+<p class="lead">Name: @Model.Ad.Name</p>
+<p>Publish status: @Model.Ad.PublishStatus.ToString()</p>
+@if (Model.Ad.PublishStatus == Domain.Ads.PublishStatus.Published)
 {
-    <p class="lead"> Status: @Model.Ad.PublishStatus</p>
-    @if (Model.Ad.PublishDate!=null)
-    {
-        <p class="lead">Publish date: @Model.Ad.PublishDate</p>
-    }
-    <a class="btn btn-primary" asp-page="./Edit">Edit ad <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+<p>Publish date: @Model.Ad.PublishDate</p>
 }
+<a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.Ad.Id">Edit ad <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>

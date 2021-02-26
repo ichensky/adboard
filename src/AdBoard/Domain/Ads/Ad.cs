@@ -10,16 +10,16 @@ namespace Domain.Ads
     public class Ad : AggregateRoot
     {
         private readonly TypedIdValueObject userProfilesId;
-        private readonly Name name;
-        private readonly Description description;
-        private readonly YoutubeUrl youtubeUrl;
-        private readonly Keywords keywords;
+        private Name name;
+        private Description description;
+        private YoutubeUrl youtubeUrl;
+        private Keywords keywords;
         private IEnumerable<Picture> pictures;
         private PublishInformation publish;
         private ShortDescription shortDescription;
-        private readonly DateTime creationDate;
-        private readonly DateTime? deleteDate;
-        private readonly DateTime updateDate;
+        private DateTime creationDate;
+        private DateTime? deleteDate;
+        private DateTime updateDate;
         private readonly TypedIdValueObject id;
 
         private Ad()
@@ -43,8 +43,21 @@ namespace Domain.Ads
 
         public static Ad CreateAd(TypedIdValueObject userProfilesId, Name name, ShortDescription shortDescription, Description description, Keywords keywords, YoutubeUrl youtubeUrl)
         {
-
             return new Ad(userProfilesId, name, shortDescription, description, keywords, youtubeUrl);
+        }
+
+        public void UpdateAdByUser(TypedIdValueObject userProfilesId, Name name, ShortDescription shortDescription, Description description, Keywords keywords, YoutubeUrl youtubeUrl)
+        {
+            if ((this.userProfilesId != userProfilesId)|| (this.deleteDate == null))
+            {
+                throw new BusinessRuleValidationException("User can not edit this ad.");
+            }
+            this.updateDate = DateTime.UtcNow;
+            this.name = name;
+            this.shortDescription = shortDescription;
+            this.description = description;
+            this.keywords = keywords;
+            this.youtubeUrl = youtubeUrl;
         }
 
         public void AddPicture(Picture picture)

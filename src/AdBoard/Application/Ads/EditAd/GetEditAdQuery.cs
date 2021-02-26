@@ -3,15 +3,18 @@ using Application.Users.GetUserName;
 using System;
 using System.Collections.Generic;
 
-namespace Application.Ads.GetAd
+namespace Application.Ads.EditAd
 {
-    public class GetAdQuery : IQuery<GetAdDto?>
+    public class GetEditAdQuery : IQuery<EditAdDto?>
     {
-        public GetAdQuery( Guid id)
+        public GetEditAdQuery(Guid id, Guid userId)
         {
             Id = id;
+            UserId = userId;
         }
 
         public Guid Id { get; }
+
+        public Guid UserId { get; }
     }
 }

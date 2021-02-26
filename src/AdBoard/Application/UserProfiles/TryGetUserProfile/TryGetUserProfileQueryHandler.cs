@@ -30,13 +30,13 @@ namespace Application.UserProfiles.TryGetUserProfile
                               "[Instagram], " +
                               "[PhoneNumber] " +
                               "FROM dbo.UserProfiles " +
-                              "WHERE [Id] = @UserId ";
+                              "WHERE [Id] = @userId ";
 
             var connection = _sqlConnectionFactory.GetOpenConnection();
 
             return await connection.QuerySingleOrDefaultAsync<UserProfileDto>(sql, new
             {
-                request.UserId
+                userId= request.UserId
             });
         }
     }
