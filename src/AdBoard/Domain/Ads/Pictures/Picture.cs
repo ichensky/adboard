@@ -10,17 +10,19 @@ namespace Domain.Ads.Pictures
         private int order;
         private DateTime creationDate;
         private readonly TypedIdValueObject id;
+        private readonly Ad ad;
 
         private Picture() {
             // For EF
         }
-        public Picture(string? googleId, Description? description, int order, DateTime creationDate)
+        public Picture(Ad ad, string? googleId, Description? description, int order, DateTime creationDate)
         {
             this.googleId = googleId;
             this.description = description;
             this.order = order;
             this.creationDate = creationDate;
             this.id = new TypedIdValueObject(Guid.NewGuid());
+            this.ad = ad;
         }
 
         public void ChangeOrder(int order) => this.order = order;
@@ -31,10 +33,12 @@ namespace Domain.Ads.Pictures
 
         public int Order => order;
 
-        public Description? Description => description;
+        public Description Description => description;
 
         public DateTime CreationDate { get => creationDate; }
 
         public TypedIdValueObject Id => id;
+
+        public Ad Ad => ad;
     }
 }

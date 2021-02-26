@@ -4,6 +4,7 @@ using Domain.UserProfiles;
 using Infrastucture.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastucture.Domain.Ads

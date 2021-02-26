@@ -1,4 +1,5 @@
 ﻿using Domain.UserProfiles;
+using Infrastucture.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -12,6 +13,7 @@ namespace Infrastucture.Domain.UserProfiles
         {
             builder.ToTable("UserProfiles");
 
+            builder.Property(x=>x.Id).HasConversion(new TypedIdValuesObjectConverter());
             builder.HasKey(b => b.Id);
 
             builder.OwnsOne(x => x.Name, y =>
@@ -25,7 +27,6 @@ namespace Infrastucture.Domain.UserProfiles
                 y.Property(x => x.Telegram).HasColumnName(nameof(UserProfile.ContactInformation.Telegram));
                 y.Property(x => x.Instagram).HasColumnName(nameof(UserProfile.ContactInformation.Instagram));
             });
-
             builder.OwnsOne(x => x.Picture, y =>
             {
                 y.Property(x => x.Value).HasColumnName(nameof(UserProfile.Picture));

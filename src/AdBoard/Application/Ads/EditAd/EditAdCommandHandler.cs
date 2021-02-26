@@ -3,6 +3,7 @@ using Application.UserProfiles;
 using AutoMapper;
 using Domain.Ads;
 using Domain.Core;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +26,11 @@ namespace Application.Ads.EditAd
 
         public async Task<EditAdDto> Handle(EditAdCommand request, CancellationToken cancellationToken)
         {
-            var ad = await adRepository.GetAsync(new TypedIdValueObject(request.AdId));
+            var ad = await adRepository.TryGetAsync(new TypedIdValueObject(request.AdId));
+            if (ad == null)
+            {
+                throw new InvalidOperationException("Ad not found.");
+            }
 
             ad.UpdateAdByUser(new TypedIdValueObject(request.UserId), new Name(request.Name),
             new ShortDescription(request.ShortDescription), new Description(request.Description),

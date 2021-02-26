@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Domain.Core
 {
-    public class TypedIdValueObject : SingleValueObject<Guid>
+    public class TypedIdValueObject : SingleValueObject<Guid> 
     {
         protected TypedIdValueObject()
         {

@@ -14,7 +14,7 @@ namespace Domain.Ads
         private Description description;
         private YoutubeUrl youtubeUrl;
         private Keywords keywords;
-        private IEnumerable<Picture> pictures;
+        private List<Picture> pictures;
         private PublishInformation publish;
         private ShortDescription shortDescription;
         private DateTime creationDate;
@@ -48,7 +48,7 @@ namespace Domain.Ads
 
         public void UpdateAdByUser(TypedIdValueObject userProfilesId, Name name, ShortDescription shortDescription, Description description, Keywords keywords, YoutubeUrl youtubeUrl)
         {
-            if ((this.userProfilesId != userProfilesId)|| (this.deleteDate == null))
+            if ((this.userProfilesId.Value != userProfilesId.Value)|| (this.deleteDate != null))
             {
                 throw new BusinessRuleValidationException("User can not edit this ad.");
             }
@@ -62,20 +62,20 @@ namespace Domain.Ads
 
         public void AddPicture(Picture picture)
         {
-            var pictures = this.pictures as IList<Picture> ?? this.pictures.ToList();
-            pictures.Add(picture);
-            if (pictures.Count > 5)
-            {
-                throw new BusinessRuleValidationException("Ad can contains maximum 10 pictures");
-            }
-            this.pictures = pictures;
+            //var pictures = this.pictures as IList<Picture> ?? this.pictures.ToList();
+            //pictures.Add(picture);
+            //if (pictures.Count > 5)
+            //{
+            //    throw new BusinessRuleValidationException("Ad can contains maximum 10 pictures");
+            //}
+            //this.pictures = pictures;
         }
 
         public void RemovePicture(Picture picture)
         {
-            var pictures = this.pictures as IList<Picture> ?? this.pictures.ToList();
-            pictures.Remove(picture);
-            this.pictures = pictures;
+            //var pictures = this.pictures as IList<Picture> ?? this.pictures.ToList();
+            //pictures.Remove(picture);
+            //this.pictures = pictures;
         }
 
         public void PublishAd()
@@ -103,7 +103,7 @@ namespace Domain.Ads
 
         public YoutubeUrl YoutubeUrl => youtubeUrl;
 
-        public IEnumerable<Picture> Pictures => pictures;
+        public List<Picture> Pictures => pictures;
 
         public PublishInformation Publish => publish;
 

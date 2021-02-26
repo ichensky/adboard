@@ -15,15 +15,15 @@ namespace Application.Ads.EditAd
 
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public string ShortDescription { get; set; }
 
-        public string Keywords { get; set; }
+        public string? Keywords { get; set; }
 
-        public string YoutubeUrl { get; set; }
+        public string? YoutubeUrl { get; set; }
 
-        public DateTime PublishDate { get; set; }
+        public DateTime? PublishDate { get; set; }
 
         public PublishStatus PublishStatus { get; set; }
     }

@@ -98,7 +98,6 @@ namespace AdBoard
 
             services.AddDbContext<AdBoardDbContext>(options => {
                 options.UseSqlServer(connectionString);
-                options.ReplaceService<IValueConverterSelector, StronglyTypedIdValueObjectConverterSelector>();
             });
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<AdBoardDbContext>();

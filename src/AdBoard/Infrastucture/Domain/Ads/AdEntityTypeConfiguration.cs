@@ -1,7 +1,9 @@
 ﻿using Domain.Ads;
-using Domain.Ads.Pictures;
+using Domain.Core;
+using Infrastucture.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Infrastucture.Domain.Ads
 {
@@ -11,12 +13,10 @@ namespace Infrastucture.Domain.Ads
         {
             builder.ToTable("Ads");
 
+            builder.Property(x => x.Id).HasConversion(new TypedIdValuesObjectConverter());
             builder.HasKey(b => b.Id);
 
-            builder.OwnsOne(x => x.UserProfilesId, y =>
-            {
-                y.Property(x => x.Value).HasColumnName(nameof(Ad.UserProfilesId));
-            });
+            builder.Property(x => x.UserProfilesId).HasColumnName(nameof(Ad.UserProfilesId)).HasConversion(new TypedIdValuesObjectConverter()); 
 
             builder.Property(x => x.CreationDate).HasColumnName(nameof(Ad.CreationDate));
             builder.Property(x => x.DeleteDate).HasColumnName(nameof(Ad.DeleteDate));
@@ -50,20 +50,7 @@ namespace Infrastucture.Domain.Ads
                 y.Property(x => x.PublishStatus).HasColumnName(nameof(Ad.Publish.PublishStatus));
             });
 
-            builder.OwnsMany(x => x.Pictures, y =>
-            {
-                y.HasKey(x => x.Id);
-                y.Property(x => x.CreationDate).HasColumnName(nameof(Picture.CreationDate));
-                y.Property(x => x.GoogleId).HasColumnName(nameof(Picture.GoogleId));
-                y.Property(x => x.Order).HasColumnName(nameof(Picture.Order));
-
-                builder.OwnsOne(x => x.Description, y =>
-                {
-                    y.Property(x => x.Value).HasColumnName(nameof(Picture.Description));
-                });
-
-                y.WithOwner().HasForeignKey("AdsId");
-            });
+            builder.HasMany(x => x.Pictures).WithOne(x => x.Ad);
         }
     }
 }

@@ -8,18 +8,14 @@ using System.Threading.Tasks;
 
 namespace Infrastucture.Core
 {
-    public class TypedIdValueObjectConverter<TTypedIdValue> : ValueConverter<TTypedIdValue, Guid>
-        where TTypedIdValue : TypedIdValueObject
+    public class TypedIdValuesObjectConverter : ValueConverter<TypedIdValueObject, Guid>
     {
-        public TypedIdValueObjectConverter(ConverterMappingHints mappingHints = null)
-            : base(id => id.Value, value => Create(value), mappingHints)
-        {
-        }
+        public TypedIdValuesObjectConverter(ConverterMappingHints? mappingHints = null)
+            : base(id => id.Value, value => Create(value), mappingHints) { }
 
-        private static TTypedIdValue Create(Guid id)
+        private static TypedIdValueObject Create(Guid id)
         {
-            var value=  Activator.CreateInstance(typeof(TTypedIdValue), id) as TTypedIdValue;
-            if (value == null)
+            if (Activator.CreateInstance(typeof(TypedIdValueObject), id) is not TypedIdValueObject value)
             {
                 throw new Exception("value is null");
             }

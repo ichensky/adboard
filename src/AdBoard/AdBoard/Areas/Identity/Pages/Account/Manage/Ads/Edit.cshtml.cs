@@ -97,12 +97,15 @@ namespace AdBoard.Areas.Identity.Pages.Account.Manage.Ads
 
             await razorPagesRequestExceptionHandler.Execute(ModelState, model);
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return Page();
+                StatusMessage = "Ad is updated";
+            }
+            else {
+                StatusMessage = string.Empty;
             }
 
-            return RedirectToPage($"EditAd/{model.Id}");
+            return Page();
         }
     }
 }
